@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-TRONiCS Shop Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --bg:#f4f5f7;--card:#fff;--text:#1b1d22;--muted:#6b7280;--line:#e5e7eb;
+  --brand:#d7261e;--brand-ink:#fff;--ok:#16a34a;--warn:#d97706;--bad:#dc2626;--info:#2563eb;
+  --radius:12px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--bg:#0f1115;--card:#181b21;--text:#e8eaed;--muted:#9aa1ab;--line:#2a2f37}
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:15px}
+button,input,select,textarea{font:inherit;color:inherit}
+input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
+textarea{min-height:70px;resize:vertical}
+label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+.btn{border:1px solid var(--line);background:var(--card);padding:8px 14px;border-radius:8px;cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.bad{background:var(--bad);border-color:var(--bad);color:#fff}
+.btn.sm{padding:5px 10px;font-size:13px}
+.btn:disabled{opacity:.5;cursor:default}
+.hidden{display:none!important}
+/* login */
+#login{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:16px}
+#login .box{background:var(--card);padding:28px;border-radius:var(--radius);width:100%;max-width:360px;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+#login h1{margin:0 0 4px;font-size:22px}
+.logo{color:var(--brand);font-weight:800;letter-spacing:.5px}
+/* shell */
+#app{display:flex;min-height:100vh}
+nav{width:220px;background:var(--card);border-right:1px solid var(--line);padding:16px 10px;flex-shrink:0;position:sticky;top:0;height:100vh;overflow:auto}
+nav .logo{font-size:18px;padding:4px 10px 16px}
+nav a{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-radius:8px;color:var(--text);text-decoration:none;cursor:pointer;margin-bottom:2px}
+nav a.active{background:var(--brand);color:#fff}
+nav a .pill{background:var(--bad);color:#fff;border-radius:99px;font-size:11px;padding:1px 7px}
+nav a.active .pill{background:#fff;color:var(--brand)}
+nav .foot{margin-top:20px;padding:10px 12px;font-size:12px;color:var(--muted)}
+main{flex:1;padding:20px;min-width:0}
+.top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+.top h2{margin:0;font-size:20px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters select,.filters input{width:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.stat .n{font-size:26px;font-weight:700;margin-top:4px}
+.stat .l{color:var(--muted);font-size:13px}
+.stat.click{cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
+th{font-size:12px;color:var(--muted);font-weight:600;text-transform:uppercase}
+tr.click{cursor:pointer}
+tr.click:hover td{background:rgba(127,127,127,.06)}
+.tablewrap{overflow-x:auto}
+.badge{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;background:#e5e7eb;color:#374151}
+.b-pending_payment,.b-pending{background:#fef3c7;color:#92400e}
+.b-payment_review{background:#fde68a;color:#78350f}
+.b-paid,.b-deposit_paid,.b-approved,.b-accepted,.b-delivered{background:#dcfce7;color:#166534}
+.b-ordered_taobao,.b-shipping,.b-quoted{background:#dbeafe;color:#1e40af}
+.b-arrived,.b-ready{background:#ede9fe;color:#5b21b6}
+.b-cancelled,.b-rejected{background:#fee2e2;color:#991b1b}
+.thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;background:var(--line)}
+.muted{color:var(--muted)}
+.empty{padding:30px;text-align:center;color:var(--muted)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.check{display:flex;gap:8px;align-items:center;margin-top:12px}
+.check input{width:auto}
+/* modal */
+#modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:flex-start;justify-content:center;padding:30px 12px;overflow:auto;z-index:50}
+#modal .box{background:var(--card);border-radius:var(--radius);width:100%;max-width:640px;padding:20px}
+#modal h3{margin:0 0 6px}
+.mfoot{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+.section{margin-top:16px;padding-top:12px;border-top:1px solid var(--line)}
+.section h4{margin:0 0 8px;font-size:14px}
+.imgs{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.imgs .im{position:relative}
+.imgs img{width:72px;height:72px;object-fit:cover;border-radius:8px}
+.imgs button{position:absolute;top:-6px;right:-6px;border:0;background:var(--bad);color:#fff;border-radius:99px;width:20px;height:20px;cursor:pointer;font-size:12px}
+.slip{max-width:100%;max-height:460px;border-radius:8px;display:block;margin:8px 0}
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:10px 18px;border-radius:8px;z-index:99;font-size:14px}
+a.link{color:var(--info);word-break:break-all}
+/* mobile */
+@media (max-width:760px){
+  #app{flex-direction:column}
+  nav{width:100%;height:auto;position:sticky;top:0;z-index:10;display:flex;overflow-x:auto;padding:8px;border-right:0;border-bottom:1px solid var(--line)}
+  nav .logo,nav .foot{display:none}
+  nav a{flex-shrink:0;margin:0 3px;gap:6px}
+  main{padding:14px}
+  .row{grid-template-columns:1fr}
+  .hide-m{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="hidden">
+  <div class="box">
+    <h1><span class="logo">K-TRONiCS</span> Shop</h1>
+    <p class="muted" style="margin-top:0">Admin sign in</p>
+    <form id="loginForm">
+      <label>Email</label><input id="lEmail" type="email" required autocomplete="username">
+      <label>Password</label><input id="lPass" type="password" required autocomplete="current-password">
+      <p id="lErr" style="color:var(--bad);min-height:18px;font-size:14px"></p>
+      <button class="btn primary" style="width:100%" id="lBtn">Sign in</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
+  <nav id="nav">
+    <div class="logo">K-TRONiCS Shop</div>
+    <a data-p="dashboard">Dashboard</a>
+    <a data-p="orders">Orders</a>
+    <a data-p="payments">Payment slips <span class="pill hidden" id="pPay"></span></a>
+    <a data-p="requests">Taobao requests <span class="pill hidden" id="pReq"></span></a>
+    <a data-p="products">Products</a>
+    <a data-p="categories">Categories</a>
+    <a data-p="customers">Customers</a>
+    <a data-p="settings">Settings</a>
+    <a id="logout">Sign out</a>
+    <div class="foot" id="who"></div>
+  </nav>
+  <main id="main"></main>
+</div>
+
+<div id="modal" class="hidden"><div class="box" id="mbox"></div></div>
+<div id="toast" class="hidden"></div>
+
+<script>
+// ====== CONFIG ======
+const SUPABASE_URL = 'https://mirdoyaqswbexricqybv.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_uD7Vm-RiJwcPlAeTRH4ejQ_P9X3GCRU';
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+// ====== LABELS ======
+const ORDER_STATUS = {
+  pending_payment:'Waiting payment', payment_review:'Check slip', paid:'Paid',
+  deposit_paid:'Deposit paid', ordered_taobao:'Ordered on Taobao', shipping:'Shipping to KH',
+  arrived:'Arrived', ready:'Ready to deliver', delivered:'Delivered', cancelled:'Cancelled'
+};
+const ORDER_TYPE = {stock:'In stock', preorder:'Pre-order', taobao_link:'Taobao link'};
+const REQ_STATUS = {pending:'New', quoted:'Quoted', accepted:'Accepted', rejected:'Rejected', cancelled:'Cancelled'};
+
+// ====== HELPERS ======
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = n => '$' + Number(n || 0).toFixed(2);
+const dt = d => d ? new Date(d).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+const badge = (s, map) => `<span class="badge b-${esc(s)}">${esc((map||{})[s] || s)}</span>`;
+const custName = c => c ? esc([c.first_name, c.last_name].filter(Boolean).join(' ') || (c.username ? '@'+c.username : 'Customer')) : '—';
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hidden'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.add('hidden'),2600); }
+function openModal(html){ $('#mbox').innerHTML = html; $('#modal').classList.remove('hidden'); }
+function closeModal(){ $('#modal').classList.add('hidden'); $('#mbox').innerHTML=''; }
+$('#modal').addEventListener('click', e => { if (e.target.id === 'modal') closeModal(); });
+function fail(error){ if(error){ console.error(error); toast('Error: ' + error.message); return true; } return false; }
+async function uploadImage(file, folder='products'){
+  const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+  const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2,8)}.${ext}`;
+  const { error } = await sb.storage.from('product-images').upload(path, file, { contentType: file.type });
+  if (fail(error)) return null;
+  return sb.storage.from('product-images').getPublicUrl(path).data.publicUrl;
+}
+
+// ====== AUTH ======
+async function start(){
+  const { data:{ session } } = await sb.auth.getSession();
+  if (!session) return showLogin();
+  const { data: ok } = await sb.rpc('is_admin');
+  if (!ok){ await sb.auth.signOut(); return showLogin('This account is not an admin.'); }
+  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  $('#who').textContent = session.user.email;
+  go(location.hash.slice(1) || 'dashboard');
+  refreshPills();
+}
+function showLogin(msg=''){ $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#lErr').textContent = msg; }
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault(); $('#lBtn').disabled = true; $('#lErr').textContent='';
+  const { error } = await sb.auth.signInWithPassword({ email: $('#lEmail').value.trim(), password: $('#lPass').value });
+  $('#lBtn').disabled = false;
+  if (error) return $('#lErr').textContent = error.message;
+  start();
+});
+$('#logout').onclick = async () => { await sb.auth.signOut(); showLogin(); };
+
+// ====== NAV ======
+const PAGES = { dashboard, orders, payments, requests, products, categories, customers, settings };
+let page = 'dashboard';
+function go(p){
+  if (!PAGES[p]) p = 'dashboard';
+  page = p; location.hash = p;
+  document.querySelectorAll('nav a[data-p]').forEach(a => a.classList.toggle('active', a.dataset.p === p));
+  $('#main').innerHTML = '<div class="empty">Loading…</div>';
+  PAGES[p]();
+}
+document.querySelectorAll('nav a[data-p]').forEach(a => a.onclick = () => go(a.dataset.p));
+async function refreshPills(){
+  const [p, r] = await Promise.all([
+    sb.from('payments').select('id',{count:'exact',head:true}).eq('status','pending'),
+    sb.from('taobao_requests').select('id',{count:'exact',head:true}).eq('status','pending')
+  ]);
+  const set = (el, n) => { el.textContent = n; el.classList.toggle('hidden', !n); };
+  set($('#pPay'), p.count||0); set($('#pReq'), r.count||0);
+}
+
+// ====== DASHBOARD ======
+async function dashboard(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const cnt = (q) => q.then(r => r.count || 0);
+  const [slips, reqs, waiting, toOrder, shipping, ready, paidToday] = await Promise.all([
+    cnt(sb.from('payments').select('id',{count:'exact',head:true}).eq('status','pending')),
+    cnt(sb.from('taobao_requests').select('id',{count:'exact',head:true}).eq('status','pending')),
+    cnt(sb.from('orders').select('id',{count:'exact',head:true}).eq('status','pending_payment')),
+    cnt(sb.from('orders').select('id',{count:'exact',head:true}).eq('status','deposit_paid')),
+    cnt(sb.from('orders').select('id',{count:'exact',head:true}).in('status',['ordered_taobao','shipping'])),
+    cnt(sb.from('orders').select('id',{count:'exact',head:true}).in('status',['paid','ready'])),
+    sb.from('payments').select('amount_usd').eq('status','approved').gte('reviewed_at', today.toISOString())
+  ]);
+  const income = (paidToday.data||[]).reduce((s,x)=>s+Number(x.amount_usd),0);
+  const stat = (n,l,go_,f='') => `<div class="card stat ${go_?'click':''}" ${go_?`onclick="go('${go_}'${f?`);setTimeout(()=>{const s=document.getElementById('fStatus');if(s){s.value='${f}';s.onchange()}},300`:''})"`:''}><div class="l">${l}</div><div class="n">${n}</div></div>`;
+  $('#main').innerHTML = `
+    <div class="top"><h2>Dashboard</h2><button class="btn" onclick="go('dashboard')">Refresh</button></div>
+    <div class="stats">
+      ${stat(money(income),'Payments approved today')}
+      ${stat(slips,'Slips to check','payments')}
+      ${stat(reqs,'New Taobao requests','requests')}
+      ${stat(waiting,'Waiting for payment','orders','pending_payment')}
+      ${stat(toOrder,'Deposit paid — order on Taobao','orders','deposit_paid')}
+      ${stat(shipping,'Ordered / shipping','orders')}
+      ${stat(ready,'Paid — to deliver','orders')}
+    </div>
+    <div class="card"><h3 style="margin-top:0">Latest orders</h3><div id="latest" class="tablewrap"></div></div>`;
+  const { data } = await sb.from('orders').select('*, customers(first_name,last_name,username)').order('created_at',{ascending:false}).limit(8);
+  $('#latest').innerHTML = orderTable(data||[]);
+}
+
+// ====== ORDERS ======
+function orderTable(rows){
+  if (!rows.length) return '<div class="empty">No orders yet</div>';
+  return `<table><thead><tr><th>Order</th><th>Customer</th><th class="hide-m">Type</th><th>Status</th><th>Total</th><th class="hide-m">Paid</th><th class="hide-m">Date</th></tr></thead><tbody>
+  ${rows.map(o=>`<tr class="click" onclick="orderDetail(${o.id})"><td><b>${esc(o.order_no)}</b></td><td>${custName(o.customers)}</td><td class="hide-m">${esc(ORDER_TYPE[o.order_type])}</td><td>${badge(o.status,ORDER_STATUS)}</td><td>${money(o.total_usd)}</td><td class="hide-m">${money(o.paid_usd)}</td><td class="hide-m muted">${dt(o.created_at)}</td></tr>`).join('')}
+  </tbody></table>`;
+}
+async function orders(){
+  $('#main').innerHTML = `
+    <div class="top"><h2>Orders</h2>
+      <div class="filters">
+        <input id="fSearch" placeholder="Order no…" style="width:130px">
+        <select id="fType"><option value="">All types</option>${Object.entries(ORDER_TYPE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
+        <select id="fStatus"><option value="">All statuses</option>${Object.entries(ORDER_STATUS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
+      </div></div>
+    <div class="card tablewrap" id="olist"><div class="empty">Loading…</div></div>`;
+  const load = async () => {
+    let q = sb.from('orders').select('*, customers(first_name,last_name,username)').order('created_at',{ascending:false}).limit(200);
+    if ($('#fType').value) q = q.eq('order_type', $('#fType').value);
+    if ($('#fStatus').value) q = q.eq('status', $('#fStatus').value);
+    if ($('#fSearch').value.trim()) q = q.ilike('order_no', '%'+$('#fSearch').value.trim()+'%');
+    const { data, error } = await q; if (fail(error)) return;
+    $('#olist').innerHTML = orderTable(data||[]);
+  };
+  $('#fType').onchange = load; $('#fStatus').onchange = load;
+  $('#fSearch').oninput = () => { clearTimeout(load._t); load._t = setTimeout(load, 300); };
+  load();
+}
+async function orderDetail(id){
+  const { data:o, error } = await sb.from('orders')
+    .select('*, customers(*), order_items(*), payments(*), order_status_log(*)').eq('id', id).single();
+  if (fail(error)) return;
+  const c = o.customers || {};
+  const balance = Number(o.total_usd) - Number(o.paid_usd);
+  const logs = (o.order_status_log||[]).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  openModal(`
+    <h3>Order ${esc(o.order_no)}</h3>
+    <div>${badge(o.status,ORDER_STATUS)} <span class="badge">${esc(ORDER_TYPE[o.order_type])}</span> <span class="muted">${dt(o.created_at)}</span></div>
+
+    <div class="section"><h4>Customer</h4>
+      <div>${custName(c)} ${c.username?`<span class="muted">@${esc(c.username)}</span>`:''}</div>
+      <div class="muted">Contact: ${esc(o.contact_name||'')} · ${esc(o.contact_phone||c.phone||'')}</div>
+      <div class="muted">Address: ${esc(o.delivery_address||c.address||'—')}</div>
+      ${o.customer_note?`<div style="margin-top:6px">Note: ${esc(o.customer_note)}</div>`:''}
+    </div>
+
+    <div class="section"><h4>Items</h4>
+      <table>${(o.order_items||[]).map(i=>`<tr><td>${esc(i.product_name)}</td><td>${i.qty} × ${money(i.unit_price_usd)}</td><td style="text-align:right">${money(i.line_total_usd)}</td></tr>`).join('') || '<tr><td class="muted">No items</td></tr>'}
+      <tr><td colspan="2" class="muted">Delivery</td><td style="text-align:right">${money(o.delivery_fee_usd)}</td></tr>
+      <tr><td colspan="2"><b>Total</b></td><td style="text-align:right"><b>${money(o.total_usd)}</b></td></tr>
+      ${o.order_type!=='stock'?`<tr><td colspan="2" class="muted">Deposit required</td><td style="text-align:right">${money(o.deposit_usd)}</td></tr>`:''}
+      <tr><td colspan="2" class="muted">Paid so far</td><td style="text-align:right">${money(o.paid_usd)}</td></tr>
+      <tr><td colspan="2"><b>Balance</b></td><td style="text-align:right"><b>${money(balance)}</b></td></tr></table>
+    </div>
+
+    <div class="section"><h4>Payments</h4>
+      ${(o.payments||[]).map(p=>`<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin-bottom:6px">
+        <span>${esc(p.payment_kind)} · ${money(p.amount_usd)} ${badge(p.status)}</span>
+        <button class="btn sm" onclick="paymentDetail(${p.id})">View slip</button></div>`).join('') || '<div class="muted">No payments yet</div>'}
+    </div>
+
+    <div class="section"><h4>Update order</h4>
+      <div class="row">
+        <div><label>Status</label><select id="oStatus">${Object.entries(ORDER_STATUS).map(([k,v])=>`<option value="${k}" ${k===o.status?'selected':''}>${v}</option>`).join('')}</select></div>
+        <div><label>Taobao order / tracking no.</label><input id="oTrack" value="${esc(o.taobao_tracking||'')}"></div>
+      </div>
+      <label>Admin note (customer doesn't see this)</label><textarea id="oNote">${esc(o.admin_note||'')}</textarea>
+    </div>
+
+    ${logs.length?`<div class="section"><h4>History</h4>${logs.map(l=>`<div class="muted" style="font-size:13px">${dt(l.created_at)} — ${esc(ORDER_STATUS[l.new_status]||l.new_status)}</div>`).join('')}</div>`:''}
+
+    <div class="mfoot"><button class="btn" onclick="closeModal()">Close</button><button class="btn primary" id="oSave">Save</button></div>`);
+  $('#oSave').onclick = async () => {
+    const { error } = await sb.from('orders').update({
+      status: $('#oStatus').value, taobao_tracking: $('#oTrack').value.trim() || null, admin_note: $('#oNote').value.trim() || null
+    }).eq('id', id);
+    if (fail(error)) return;
+    toast('Order saved'); closeModal(); go(page);
+  };
+}
+
+// ====== PAYMENT SLIPS ======
+async function payments(){
+  $('#main').innerHTML = `
+    <div class="top"><h2>Payment slips</h2>
+      <div class="filters"><select id="fPay"><option value="pending">To check</option><option value="approved">Approved</option><option value="rejected">Rejected</option><option value="">All</option></select></div></div>
+    <div class="card tablewrap" id="plist"></div>`;
+  const load = async () => {
+    let q = sb.from('payments').select('*, orders(order_no, total_usd, customers(first_name,last_name,username))').order('created_at',{ascending:false}).limit(200);
+    if ($('#fPay').value) q = q.eq('status', $('#fPay').value);
+    const { data, error } = await q; if (fail(error)) return;
+    $('#plist').innerHTML = !data.length ? '<div class="empty">Nothing here 🎉</div>' :
+      `<table><thead><tr><th>Order</th><th>Customer</th><th>Type</th><th>Amount</th><th>Status</th><th class="hide-m">Sent</th></tr></thead><tbody>
+      ${data.map(p=>`<tr class="click" onclick="paymentDetail(${p.id})"><td><b>${esc(p.orders?.order_no)}</b></td><td>${custName(p.orders?.customers)}</td><td>${esc(p.payment_kind)}</td><td>${money(p.amount_usd)}</td><td>${badge(p.status)}</td><td class="hide-m muted">${dt(p.created_at)}</td></tr>`).join('')}</tbody></table>`;
+  };
+  $('#fPay').onchange = load; load();
+}
+async function paymentDetail(id){
+  const { data:p, error } = await sb.from('payments').select('*, orders(*)').eq('id', id).single();
+  if (fail(error)) return;
+  let slip = '<div class="muted">No slip image</div>';
+  if (p.slip_path){
+    const { data:s } = await sb.storage.from('payment-slips').createSignedUrl(p.slip_path, 600);
+    if (s?.signedUrl) slip = `<a href="${s.signedUrl}" target="_blank"><img class="slip" src="${s.signedUrl}"></a>`;
+  }
+  const o = p.orders;
+  openModal(`
+    <h3>Payment — ${esc(o.order_no)}</h3>
+    <div>${badge(p.status)} <b>${money(p.amount_usd)}</b> (${esc(p.payment_kind)}) · <span class="muted">${dt(p.created_at)}</span></div>
+    <div class="muted" style="margin-top:4px">Order total ${money(o.total_usd)} · already paid ${money(o.paid_usd)}</div>
+    ${slip}
+    ${p.status==='rejected'&&p.reject_reason?`<div style="color:var(--bad)">Reason: ${esc(p.reject_reason)}</div>`:''}
+    ${p.status==='pending'?`<label>Reject reason (only if rejecting)</label><input id="rReason" placeholder="e.g. amount does not match">`:''}
+    <div class="mfoot">
+      <button class="btn" onclick="closeModal()">Close</button>
+      <button class="btn" onclick="closeModal();orderDetail(${o.id})">Open order</button>
+      ${p.status==='pending'?`<button class="btn bad" id="pRej">Reject</button><button class="btn ok" id="pApp">Approve</button>`:''}
+    </div>`);
+  if (p.status !== 'pending') return;
+  const me = (await sb.auth.getUser()).data.user.id;
+  $('#pApp').onclick = async () => {
+    $('#pApp').disabled = true;
+    let { error } = await sb.from('payments').update({ status:'approved', reviewed_by:me, reviewed_at:new Date().toISOString() }).eq('id', id);
+    if (fail(error)) return;
+    const paid = Number(o.paid_usd) + Number(p.amount_usd);
+    const next = p.payment_kind==='full' ? 'paid' : p.payment_kind==='deposit' ? 'deposit_paid' : 'ready';
+    ({ error } = await sb.from('orders').update({ paid_usd: paid, status: next }).eq('id', o.id));
+    if (fail(error)) return;
+    toast('Payment approved'); closeModal(); refreshPills(); go(page);
+  };
+  $('#pRej').onclick = async () => {
+    const reason = $('#rReason').value.trim();
+    if (!reason) return toast('Please write a reject reason');
+    let { error } = await sb.from('payments').update({ status:'rejected', reject_reason:reason, reviewed_by:me, reviewed_at:new Date().toISOString() }).eq('id', id);
+    if (fail(error)) return;
+    ({ error } = await sb.from('orders').update({ status:'pending_payment' }).eq('id', o.id));
+    if (fail(error)) return;
+    toast('Payment rejected'); closeModal(); refreshPills(); go(page);
+  };
+}
+
+// ====== TAOBAO REQUESTS ======
+async function requests(){
+  $('#main').innerHTML = `
+    <div class="top"><h2>Taobao link requests</h2>
+      <div class="filters"><select id="fReq"><option value="pending">New</option>${Object.entries(REQ_STATUS).filter(([k])=>k!=='pending').map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}<option value="">All</option></select></div></div>
+    <div class="card tablewrap" id="rlist"></div>`;
+  const load = async () => {
+    let q = sb.from('taobao_requests').select('*, customers(first_name,last_name,username)').order('created_at',{ascending:false}).limit(200);
+    if ($('#fReq').value) q = q.eq('status', $('#fReq').value);
+    const { data, error } = await q; if (fail(error)) return;
+    $('#rlist').innerHTML = !data.length ? '<div class="empty">No requests</div>' :
+      `<table><thead><tr><th>Customer</th><th>Item</th><th>Qty</th><th>Quote</th><th>Status</th><th class="hide-m">Date</th></tr></thead><tbody>
+      ${data.map(r=>`<tr class="click" onclick="requestDetail(${r.id})"><td>${custName(r.customers)}</td><td style="max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(r.item_note||r.taobao_url)}</td><td>${r.qty}</td><td>${r.quoted_price_usd!=null?money(r.quoted_price_usd):'—'}</td><td>${badge(r.status,REQ_STATUS)}</td><td class="hide-m muted">${dt(r.created_at)}</td></tr>`).join('')}</tbody></table>`;
+  };
+  $('#fReq').onchange = load; load();
+}
+async function requestDetail(id){
+  const { data:r, error } = await sb.from('taobao_requests').select('*, customers(*)').eq('id', id).single();
+  if (fail(error)) return;
+  const editable = ['pending','quoted'].includes(r.status);
+  openModal(`
+    <h3>Taobao request</h3>
+    <div>${badge(r.status,REQ_STATUS)} <span class="muted">${dt(r.created_at)} · ${custName(r.customers)}</span></div>
+    <label>Link</label><a class="link" href="${esc(r.taobao_url)}" target="_blank" rel="noopener">${esc(r.taobao_url)}</a>
+    <label>Customer wants</label><div>${esc(r.item_note||'—')} · Qty ${r.qty}</div>
+    <div class="section"><h4>Your quote</h4>
+      <div class="row">
+        <div><label>Price per item (USD, incl. shipping to KH)</label><input id="qPrice" type="number" step="0.01" min="0" value="${r.quoted_price_usd??''}" ${editable?'':'disabled'}></div>
+        <div><label>Arrives in (days)</label><input id="qEta" type="number" min="1" value="${r.eta_days??''}" ${editable?'':'disabled'}></div>
+      </div>
+      <label>Message to customer</label><textarea id="qNote" ${editable?'':'disabled'}>${esc(r.quote_note||'')}</textarea>
+      ${r.quoted_price_usd!=null?`<div class="muted" style="margin-top:6px">Total for ${r.qty}: <b>${money(r.quoted_price_usd*r.qty)}</b></div>`:''}
+    </div>
+    <div class="mfoot">
+      <button class="btn" onclick="closeModal()">Close</button>
+      ${r.order_id?`<button class="btn" onclick="closeModal();orderDetail(${r.order_id})">Open order</button>`:''}
+      ${editable?`<button class="btn bad" id="qRej">Can't buy</button><button class="btn primary" id="qSend">${r.status==='quoted'?'Update quote':'Send quote'}</button>`:''}
+    </div>`);
+  if (!editable) return;
+  $('#qSend').onclick = async () => {
+    const price = parseFloat($('#qPrice').value);
+    if (!(price > 0)) return toast('Enter a price');
+    const { error } = await sb.from('taobao_requests').update({
+      status:'quoted', quoted_price_usd:price, eta_days: parseInt($('#qEta').value)||null, quote_note: $('#qNote').value.trim()||null
+    }).eq('id', id);
+    if (fail(error)) return;
+    toast('Quote saved — customer will see it in the shop'); closeModal(); refreshPills(); go(page);
+  };
+  $('#qRej').onclick = async () => {
+    if (!confirm('Mark this request as "can\'t buy"?')) return;
+    const { error } = await sb.from('taobao_requests').update({ status:'rejected', quote_note: $('#qNote').value.trim()||null }).eq('id', id);
+    if (fail(error)) return;
+    toast('Request rejected'); closeModal(); refreshPills(); go(page);
+  };
+}
+
+// ====== PRODUCTS ======
+let CATS = [];
+async function loadCats(){ const { data } = await sb.from('categories').select('*').order('sort_order').order('name'); CATS = data||[]; }
+async function products(){
+  await loadCats();
+  $('#main').innerHTML = `
+    <div class="top"><h2>Products</h2>
+      <div class="filters">
+        <input id="fPs" placeholder="Search…" style="width:150px">
+        <select id="fPc"><option value="">All categories</option>${CATS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+        <select id="fPt"><option value="">All</option><option value="stock">In stock</option><option value="pre">Pre-order</option><option value="off">Hidden</option></select>
+        <button class="btn primary" onclick="productForm()">+ Add product</button>
+      </div></div>
+    <div class="card tablewrap" id="prlist"></div>`;
+  const load = async () => {
+    let q = sb.from('products').select('*, categories(name)').order('created_at',{ascending:false});
+    if ($('#fPc').value) q = q.eq('category_id', $('#fPc').value);
+    if ($('#fPt').value==='stock') q = q.eq('is_preorder', false).eq('is_active', true);
+    if ($('#fPt').value==='pre') q = q.eq('is_preorder', true).eq('is_active', true);
+    if ($('#fPt').value==='off') q = q.eq('is_active', false);
+    if ($('#fPs').value.trim()) q = q.ilike('name', '%'+$('#fPs').value.trim()+'%');
+    const { data, error } = await q; if (fail(error)) return;
+    $('#prlist').innerHTML = !data.length ? '<div class="empty">No products yet — tap "+ Add product"</div>' :
+      `<table><thead><tr><th></th><th>Name</th><th class="hide-m">Category</th><th>Price</th><th>Stock</th><th class="hide-m">Shown</th></tr></thead><tbody>
+      ${data.map(p=>`<tr class="click" onclick="productForm(${p.id})">
+        <td>${p.images?.[0]?`<img class="thumb" src="${esc(p.images[0])}">`:'<div class="thumb"></div>'}</td>
+        <td><b>${esc(p.name)}</b>${p.is_preorder?' <span class="badge b-quoted">Pre-order</span>':''}</td>
+        <td class="hide-m">${esc(p.categories?.name||'—')}</td><td>${money(p.price_usd)}</td>
+        <td>${p.is_preorder?'—':p.stock_qty}</td><td class="hide-m">${p.is_active?'Yes':'<span class="muted">Hidden</span>'}</td></tr>`).join('')}</tbody></table>`;
+  };
+  $('#fPc').onchange = load; $('#fPt').onchange = load;
+  $('#fPs').oninput = () => { clearTimeout(load._t); load._t = setTimeout(load, 300); };
+  load();
+}
+async function productForm(id){
+  if (!CATS.length) await loadCats();
+  let p = { name:'', description:'', price_usd:'', stock_qty:0, images:[], is_preorder:false, deposit_percent:null, eta_days:null, is_active:true, category_id:null };
+  if (id){ const { data, error } = await sb.from('products').select('*').eq('id', id).single(); if (fail(error)) return; p = data; }
+  let images = [...(p.images||[])];
+  openModal(`
+    <h3>${id?'Edit':'Add'} product</h3>
+    <label>Name</label><input id="pName" value="${esc(p.name)}">
+    <div class="row">
+      <div><label>Category</label><select id="pCat"><option value="">— none —</option>${CATS.map(c=>`<option value="${c.id}" ${c.id===p.category_id?'selected':''}>${esc(c.name)}</option>`).join('')}</select></div>
+      <div><label>Price (USD)</label><input id="pPrice" type="number" step="0.01" min="0" value="${p.price_usd}"></div>
+    </div>
+    <div class="check"><input type="checkbox" id="pPre" ${p.is_preorder?'checked':''}><label for="pPre" style="margin:0;color:var(--text)">Taobao pre-order item (not in stock)</label></div>
+    <div class="row" id="stockRow"><div><label>Stock quantity</label><input id="pStock" type="number" min="0" value="${p.stock_qty}"></div><div></div></div>
+    <div class="row" id="preRow">
+      <div><label>Deposit % (empty = shop default)</label><input id="pDep" type="number" min="0" max="100" value="${p.deposit_percent??''}"></div>
+      <div><label>Arrives in (days)</label><input id="pEta" type="number" min="1" value="${p.eta_days??''}"></div>
+    </div>
+    <label>Description</label><textarea id="pDesc">${esc(p.description||'')}</textarea>
+    <label>Photos (first photo is the main one)</label>
+    <div class="imgs" id="pImgs"></div>
+    <input type="file" id="pFile" accept="image/*" multiple style="margin-top:8px">
+    <div class="check"><input type="checkbox" id="pAct" ${p.is_active?'checked':''}><label for="pAct" style="margin:0;color:var(--text)">Show in shop</label></div>
+    <div class="mfoot">
+      ${id?'<button class="btn bad" id="pDel" style="margin-right:auto">Delete</button>':''}
+      <button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" id="pSave">Save</button>
+    </div>`);
+  const drawImgs = () => {
+    $('#pImgs').innerHTML = images.map((u,i)=>`<div class="im"><img src="${esc(u)}"><button data-i="${i}">×</button></div>`).join('');
+    $('#pImgs').querySelectorAll('button').forEach(b => b.onclick = () => { images.splice(+b.dataset.i,1); drawImgs(); });
+  };
+  const toggle = () => { const pre = $('#pPre').checked; $('#stockRow').classList.toggle('hidden', pre); $('#preRow').classList.toggle('hidden', !pre); };
+  drawImgs(); toggle(); $('#pPre').onchange = toggle;
+  $('#pFile').onchange = async e => {
+    for (const f of e.target.files){ toast('Uploading photo…'); const url = await uploadImage(f); if (url){ images.push(url); drawImgs(); } }
+    e.target.value = '';
+  };
+  $('#pSave').onclick = async () => {
+    const name = $('#pName').value.trim(), price = parseFloat($('#pPrice').value);
+    if (!name) return toast('Enter a name'); if (!(price >= 0)) return toast('Enter a price');
+    const pre = $('#pPre').checked;
+    const row = {
+      name, price_usd: price, category_id: $('#pCat').value ? +$('#pCat').value : null,
+      description: $('#pDesc').value.trim() || null, images, is_preorder: pre, is_active: $('#pAct').checked,
+      stock_qty: pre ? 0 : (parseInt($('#pStock').value)||0),
+      deposit_percent: pre && $('#pDep').value !== '' ? parseInt($('#pDep').value) : null,
+      eta_days: pre && $('#pEta').value ? parseInt($('#pEta').value) : null
+    };
+    $('#pSave').disabled = true;
+    const { error } = id ? await sb.from('products').update(row).eq('id', id) : await sb.from('products').insert(row);
+    $('#pSave').disabled = false;
+    if (fail(error)) return;
+    toast('Product saved'); closeModal(); go('products');
+  };
+  if (id) $('#pDel').onclick = async () => {
+    if (!confirm('Delete this product? Tip: untick "Show in shop" instead to just hide it.')) return;
+    const { error } = await sb.from('products').delete().eq('id', id);
+    if (fail(error)) return; toast('Deleted'); closeModal(); go('products');
+  };
+}
+
+// ====== CATEGORIES ======
+async function categories(){
+  await loadCats();
+  $('#main').innerHTML = `
+    <div class="top"><h2>Categories</h2><button class="btn primary" onclick="catForm()">+ Add category</button></div>
+    <div class="card tablewrap">${!CATS.length?'<div class="empty">No categories yet</div>':
+      `<table><thead><tr><th>Name</th><th>Order</th><th>Shown</th></tr></thead><tbody>
+      ${CATS.map(c=>`<tr class="click" onclick="catForm(${c.id})"><td><b>${esc(c.name)}</b></td><td>${c.sort_order}</td><td>${c.is_active?'Yes':'<span class="muted">Hidden</span>'}</td></tr>`).join('')}</tbody></table>`}</div>`;
+}
+function catForm(id){
+  const c = CATS.find(x=>x.id===id) || { name:'', sort_order: CATS.length+1, is_active:true };
+  openModal(`
+    <h3>${id?'Edit':'Add'} category</h3>
+    <label>Name</label><input id="cName" value="${esc(c.name)}">
+    <label>Display order (1 = first)</label><input id="cSort" type="number" value="${c.sort_order}">
+    <div class="check"><input type="checkbox" id="cAct" ${c.is_active?'checked':''}><label for="cAct" style="margin:0;color:var(--text)">Show in shop</label></div>
+    <div class="mfoot">${id?'<button class="btn bad" id="cDel" style="margin-right:auto">Delete</button>':''}<button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" id="cSave">Save</button></div>`);
+  $('#cSave').onclick = async () => {
+    const row = { name: $('#cName').value.trim(), sort_order: parseInt($('#cSort').value)||0, is_active: $('#cAct').checked };
+    if (!row.name) return toast('Enter a name');
+    const { error } = id ? await sb.from('categories').update(row).eq('id', id) : await sb.from('categories').insert(row);
+    if (fail(error)) return; toast('Saved'); closeModal(); go('categories');
+  };
+  if (id) $('#cDel').onclick = async () => {
+    if (!confirm('Delete this category? Its products will stay, without a category.')) return;
+    const { error } = await sb.from('categories').delete().eq('id', id);
+    if (fail(error)) return; toast('Deleted'); closeModal(); go('categories');
+  };
+}
+
+// ====== CUSTOMERS ======
+async function customers(){
+  $('#main').innerHTML = `
+    <div class="top"><h2>Customers</h2><div class="filters"><input id="fCs" placeholder="Name, @username or phone…" style="width:220px"></div></div>
+    <div class="card tablewrap" id="clist"></div>`;
+  const load = async () => {
+    let q = sb.from('customers').select('*, orders(id, total_usd, status)').order('created_at',{ascending:false}).limit(300);
+    const s = $('#fCs').value.trim();
+    if (s) q = q.or(`first_name.ilike.%${s}%,last_name.ilike.%${s}%,username.ilike.%${s}%,phone.ilike.%${s}%`);
+    const { data, error } = await q; if (fail(error)) return;
+    $('#clist').innerHTML = !data.length ? '<div class="empty">No customers yet — they appear when they open the shop</div>' :
+      `<table><thead><tr><th>Name</th><th>Telegram</th><th class="hide-m">Phone</th><th>Orders</th><th>Spent</th><th class="hide-m">Joined</th></tr></thead><tbody>
+      ${data.map(c=>{ const os=(c.orders||[]).filter(o=>o.status!=='cancelled'); return `<tr><td><b>${custName(c)}</b></td><td>${c.username?`<a class="link" href="https://t.me/${esc(c.username)}" target="_blank">@${esc(c.username)}</a>`:'<span class="muted">—</span>'}</td><td class="hide-m">${esc(c.phone||'—')}</td><td>${os.length}</td><td>${money(os.reduce((s,o)=>s+Number(o.total_usd),0))}</td><td class="hide-m muted">${dt(c.created_at)}</td></tr>`; }).join('')}</tbody></table>`;
+  };
+  $('#fCs').oninput = () => { clearTimeout(load._t); load._t = setTimeout(load, 300); };
+  load();
+}
+
+// ====== SETTINGS ======
+async function settings(){
+  const { data:s, error } = await sb.from('shop_settings').select('*').eq('id',1).single();
+  if (fail(error)) return;
+  let qr = s.qr_image_url;
+  $('#main').innerHTML = `
+    <div class="top"><h2>Shop settings</h2></div>
+    <div class="card" style="max-width:620px">
+      <label>Shop name</label><input id="sName" value="${esc(s.shop_name)}">
+      <div class="section"><h4>Bank transfer details (shown at checkout)</h4>
+        <div class="row">
+          <div><label>Bank</label><input id="sBank" value="${esc(s.bank_name||'')}" placeholder="e.g. ABA"></div>
+          <div><label>Account name</label><input id="sAccName" value="${esc(s.account_name||'')}"></div>
+        </div>
+        <label>Account number</label><input id="sAccNo" value="${esc(s.account_number||'')}">
+        <label>Payment QR code image</label>
+        <div class="imgs" id="sQr"></div>
+        <input type="file" id="sQrFile" accept="image/*" style="margin-top:8px">
+      </div>
+      <div class="section"><h4>Orders</h4>
+        <div class="row">
+          <div><label>Delivery fee (USD)</label><input id="sFee" type="number" step="0.01" min="0" value="${s.delivery_fee_usd}"></div>
+          <div><label>Default pre-order deposit %</label><input id="sDep" type="number" min="0" max="100" value="${s.default_deposit_percent}"></div>
+        </div>
+      </div>
+      <div class="mfoot"><button class="btn primary" id="sSave">Save settings</button></div>
+    </div>`;
+  const drawQr = () => $('#sQr').innerHTML = qr ? `<div class="im"><img src="${esc(qr)}"><button id="qrX">×</button></div>` : '<span class="muted">No QR uploaded</span>';
+  const bindX = () => { const x = $('#qrX'); if (x) x.onclick = () => { qr = null; drawQr(); bindX(); }; };
+  drawQr(); bindX();
+  $('#sQrFile').onchange = async e => { const f = e.target.files[0]; if (!f) return; toast('Uploading…'); const u = await uploadImage(f,'settings'); if (u){ qr=u; drawQr(); bindX(); } };
+  $('#sSave').onclick = async () => {
+    const { error } = await sb.from('shop_settings').update({
+      shop_name: $('#sName').value.trim() || 'K-TRONiCS', bank_name: $('#sBank').value.trim()||null,
+      account_name: $('#sAccName').value.trim()||null, account_number: $('#sAccNo').value.trim()||null,
+      qr_image_url: qr, delivery_fee_usd: parseFloat($('#sFee').value)||0,
+      default_deposit_percent: Math.min(100, Math.max(0, parseInt($('#sDep').value)||0))
+    }).eq('id',1);
+    if (fail(error)) return; toast('Settings saved');
+  };
+}
+
+start();
+</script>
+</body>
+</html>
