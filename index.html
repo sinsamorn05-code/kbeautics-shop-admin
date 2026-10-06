@@ -415,6 +415,10 @@ async function orderDetail(id){
       <label>Customer note</label><input id="oCNote" value="${esc(o.customer_note||'')}">
     </div>
 
+    ${(o.order_items||[]).some(i=>!(Number(i.unit_price_usd)>0))?`<div class="section" style="background:#fff4e5;border:1px solid #f5c27a;border-radius:10px;padding:10px 12px">
+      <b>💬 This order has items with no price yet.</b><br>
+      Agree the price with the customer on Telegram, type it in <b>Items & price</b> below, then press <b>Save changes</b>. After that the customer can see the total and pay.
+      ${c.username?`<div style="margin-top:8px"><a class="btn sm primary" href="https://t.me/${esc(c.username)}" target="_blank">Message @${esc(c.username)} on Telegram</a></div>`:`<div class="muted" style="margin-top:6px">Customer has no Telegram username — call ${esc(o.contact_phone||'')}.</div>`}</div>`:''}
     <div class="section"><h4>Items & price</h4>${edHTML()}
     </div>
 
@@ -760,8 +764,7 @@ async function bulkUpload(){
   await loadCats();
   openModal(`
     <h3>📷 Bulk upload photos</h3>
-    <p class="muted" style="font-size:13px;margin-top:0">Every photo becomes its own product in the shop. Until you set a price, customers see <b>"Ask price"</b> instead of a price
-      (they can't buy it yet, they send you a price question). Afterwards open each one and set the real name, cost and selling price.</p>
+    <p class="muted" style="font-size:13px;margin-top:0">Every photo becomes its own product in the shop. Until you set a price, customers see <b>"Ask price"</b> — they can still order it, and you agree the price with them on Telegram. Afterwards open each one and set the real name, cost and selling price.</p>
     <div class="card" style="padding:12px;margin:10px 0">
       <b>A) On a computer — whole folder (recommended)</b>
       <div class="muted" style="font-size:13px;margin:4px 0 8px">Choose the unzipped folder <b>K-BEAUTICS Product Photos</b>. Each sub-folder becomes a category
