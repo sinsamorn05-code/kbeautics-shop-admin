@@ -727,7 +727,7 @@ async function products(){
         <input id="fPs" placeholder="Search…" style="width:150px">
         <select id="fPc"><option value="">All categories</option>${CATS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
         <select id="fPt"><option value="">All</option><option value="stock">Normal</option><option value="pre">Pre-order</option><option value="off">Hidden</option><option value="nocost">No cost price yet</option></select>
-        <button class="btn primary" onclick="productForm()">+ Add product</button>
+        <button class="btn" onclick="bulkUpload()">📷 Bulk upload photos</button><button class="btn primary" onclick="productForm()">+ Add product</button>
       </div></div>
     <div class="card tablewrap" id="prlist"></div>`;
   const load = async () => {
@@ -750,6 +750,89 @@ async function products(){
   $('#fPc').onchange = load; $('#fPt').onchange = load;
   $('#fPs').oninput = () => { clearTimeout(load._t); load._t = setTimeout(load, 300); };
   load();
+}
+// ====== BULK UPLOAD: many photos -> hidden draft products ======
+function catFromFolder(folder){
+  // "06 Hair Care" -> "Hair Care" ; "02 Cosmetics (Makeup)" -> "Cosmetics"
+  return folder.replace(/^\s*\d+\s*[-_.]?\s*/, '').replace(/\s*\(.*\)\s*$/, '').trim();
+}
+async function bulkUpload(){
+  await loadCats();
+  openModal(`
+    <h3>📷 Bulk upload photos</h3>
+    <p class="muted" style="font-size:13px;margin-top:0">Every photo becomes its own product in the shop. Until you set a price, customers see <b>"Ask price"</b> instead of a price
+      (they can't buy it yet, they send you a price question). Afterwards open each one and set the real name, cost and selling price.</p>
+    <div class="card" style="padding:12px;margin:10px 0">
+      <b>A) On a computer — whole folder (recommended)</b>
+      <div class="muted" style="font-size:13px;margin:4px 0 8px">Choose the unzipped folder <b>K-BEAUTICS Product Photos</b>. Each sub-folder becomes a category
+        (missing categories are created automatically). The "Videos" folder is skipped.</div>
+      <input type="file" id="bDir" webkitdirectory directory multiple>
+    </div>
+    <div class="card" style="padding:12px;margin:10px 0">
+      <b>B) On a phone — pick photos for one category</b>
+      <label>Category</label><select id="bCat">${CATS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
+      <input type="file" id="bFiles" accept="image/*" multiple style="margin-top:8px">
+    </div>
+    <div id="bProg" class="hidden" style="margin-top:8px">
+      <div style="height:12px;background:#f3d6e0;border-radius:8px;overflow:hidden"><div id="bBar" style="height:100%;width:0;background:var(--brand)"></div></div>
+      <div id="bTxt" class="muted" style="font-size:13px;margin-top:6px"></div>
+    </div>
+    <div class="mfoot"><button class="btn" id="bClose" onclick="closeModal();go('products')">Close</button></div>`);
+  const isImg = f => /\.(jpe?g|png|webp|gif|heic)$/i.test(f.name) || (f.type||'').startsWith('image/');
+  async function run(jobs){ // jobs: [{file, catName?, catId?}]
+    if (!jobs.length) return toast('No photos found');
+    $('#bDir').disabled = $('#bFiles').disabled = true; $('#bProg').classList.remove('hidden');
+    // 1) create missing categories
+    let maxSort = Math.max(0, ...CATS.map(c=>c.sort_order||0));
+    const byName = {}; CATS.forEach(c => byName[c.name.toLowerCase()] = c.id);
+    for (const j of jobs) if (!j.catId && j.catName){
+      const k = j.catName.toLowerCase();
+      if (!byName[k]){
+        const r = await sb.from('categories').insert({ name: j.catName, sort_order: ++maxSort, is_active: true }).select('id').single();
+        if (fail(r.error)) return; byName[k] = r.data.id; toast('Category created: ' + j.catName);
+      }
+      j.catId = byName[k];
+    }
+    // 2) skip photos already uploaded (same name)
+    const { data: ex } = await sb.from('products').select('name');
+    const have = new Set((ex||[]).map(p => p.name.toLowerCase()));
+    let done = 0, made = 0, skipped = 0, failed = 0;
+    const show = () => { $('#bBar').style.width = Math.round(done/jobs.length*100)+'%';
+      $('#bTxt').textContent = `${done} / ${jobs.length} — added ${made}, already there ${skipped}${failed?', failed '+failed:''}`; };
+    const queue = [...jobs];
+    async function worker(){
+      while (queue.length){
+        const j = queue.shift(); const name = j.file.name.replace(/\.[^.]+$/, '');
+        if (have.has(name.toLowerCase())) skipped++;
+        else {
+          const url = await uploadImage(j.file);
+          if (!url) failed++;
+          else {
+            const { error } = await sb.from('products').insert({ name, price_usd: 0, category_id: j.catId || null, images: [url], is_active: true, is_preorder: false });
+            if (error){ console.error(error); failed++; } else { made++; have.add(name.toLowerCase()); }
+          }
+        }
+        done++; show();
+      }
+    }
+    show(); await Promise.all([worker(), worker(), worker()]);
+    $('#bTxt').innerHTML += '<br><b>Finished ✅</b> Products are in the shop with "Ask price" — set name & prices when you are ready.' + (failed ? ' Run it again to retry the failed ones.' : '');
+    $('#bDir').disabled = $('#bFiles').disabled = false;
+  }
+  $('#bDir').onchange = e => {
+    const jobs = [];
+    for (const f of e.target.files){
+      if (!isImg(f)) continue;
+      const parts = (f.webkitRelativePath || f.name).split('/');
+      const folder = parts.length > 2 ? parts[parts.length-2] : '';
+      if (!folder || /video/i.test(folder)) continue;
+      jobs.push({ file: f, catName: catFromFolder(folder) });
+    }
+    jobs.sort((a,b) => a.file.name.localeCompare(b.file.name));
+    if (!confirm(`Upload ${jobs.length} photos into ${new Set(jobs.map(j=>j.catName)).size} categories?`)) return;
+    run(jobs);
+  };
+  $('#bFiles').onchange = e => run([...e.target.files].filter(isImg).map(f => ({ file: f, catId: +$('#bCat').value })));
 }
 async function productForm(id){
   if (!CATS.length) await loadCats();
