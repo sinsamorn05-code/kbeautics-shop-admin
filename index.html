@@ -10,6 +10,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>K-BEAUTICS Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -28,7 +30,7 @@
   :root{--bg:#0f1115;--card:#181b21;--text:#e8eaed;--muted:#9aa1ab;--line:#2a2f37}
 }
 *{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:15px}
+body{margin:0;font-family:system-ui,"Kantumruy Pro",-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);font-size:15px}
 button,input,select,textarea{font:inherit;color:inherit}
 input,select,textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card)}
 textarea{min-height:70px;resize:vertical}
@@ -123,6 +125,40 @@ a.link{color:var(--info);overflow-wrap:anywhere}
   .row{grid-template-columns:1fr}
   .hide-m{display:none}
 }
+
+/* orders — K-TRONiCS style */
+:root{--k-gr:#1E7A45;--k-grs:#E3F4EA;--k-or:#A14A06;--k-ors:#FDF0E1;--k-rd:#B42318;--k-rds:#FDE8E6;--k-bl:#1D5FB8;--k-bls:#E4EEFB;--k-pu:#6D28D9;--k-pus:#EFE7FD}
+@media (prefers-color-scheme: dark){:root{--k-gr:#4ADE80;--k-grs:#10291B;--k-or:#F5A524;--k-ors:#33230F;--k-rd:#F87171;--k-rds:#3A1416;--k-bl:#7FB2FF;--k-bls:#132238;--k-pu:#C4B5FD;--k-pus:#251a3d}}
+.kchips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 12px;scrollbar-width:none}.kchips::-webkit-scrollbar{display:none}
+.kchip{height:34px;padding:0 14px;border-radius:999px;font:inherit;font-size:13px;font-weight:700;border:1px solid var(--line);background:var(--card);color:var(--text);white-space:nowrap;cursor:pointer}
+.kchip span{opacity:.7;margin-left:2px}.kchip.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.ksearch input{width:100%;height:44px;border-radius:12px}
+.kkpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:12px 0}
+.kstat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}.kstat b{display:block;font-size:21px}.kstat span{font-size:12px;color:var(--muted)}
+.kstat .gr{color:var(--k-gr)}.kstat .or{color:var(--k-or)}.kstat .rd{color:var(--k-rd)}
+.ksum{font-size:13px;margin:0 2px 8px}
+.kcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;display:flex;flex-direction:column;gap:12px}
+.kcard.flush{padding:0;gap:0;overflow:hidden}
+.kitem{display:flex;align-items:center;gap:12px;padding:12px 14px}.kitem+.kitem{border-top:1px solid var(--line)}
+.kopen{border:0;background:none;text-align:left;padding:0;font:inherit;color:inherit;cursor:pointer;min-width:0}
+.ktt{font-weight:700;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kst{font-size:13px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.kright{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.knext{width:96px;flex-shrink:0}
+.grow{flex:1;min-width:0}
+.kpill{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.kpill.gr{background:var(--k-grs);color:var(--k-gr)}.kpill.or{background:var(--k-ors);color:var(--k-or)}.kpill.rd{background:var(--k-rds);color:var(--k-rd)}
+.kpill.bl{background:var(--k-bls);color:var(--k-bl)}.kpill.pu{background:var(--k-pus);color:var(--k-pu)}
+.kbtn{text-decoration:none;height:48px;border-radius:12px;font:inherit;font-size:15px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;background:var(--brand);color:#fff;padding:0 18px;cursor:pointer}
+.kbtn:disabled{opacity:.55}.kbtn.green{background:var(--k-gr)}.kbtn.out{background:var(--card);color:var(--text);border:1px solid var(--line)}
+.kbtn.red{background:var(--card);color:var(--k-rd);border:1px solid #F1C4BF}.kbtn.sm{height:38px;font-size:13px;padding:0 12px;border-radius:10px}
+.kbtns{display:flex;gap:10px;flex-wrap:wrap}.kbtns>*{flex:1}
+.ksheet{display:flex;flex-direction:column;gap:12px}.ksh{font-size:17px;font-weight:800}
+.krow{display:flex;align-items:center;gap:12px}.kbig{font-size:26px;font-weight:800}
+.kpaybar{height:8px;border-radius:99px;background:var(--line);overflow:hidden}.kpaybar>div{height:100%;background:var(--k-gr);border-radius:99px}
+.kplist{margin:0 -14px;border-top:1px solid var(--line)}.kpay{padding:10px 14px}.kpay+.kpay{border-top:1px solid var(--line)}
+.kcol{display:flex;flex-direction:column;gap:8px}.knote{background:var(--bg);border-radius:10px;padding:10px;font-size:14px}
+@media (max-width:640px){.knext{display:none}.kkpis{grid-template-columns:1fr 1fr 1fr}.kstat{padding:10px}.kstat b{font-size:16px}}
 </style>
 </head>
 <body>
@@ -137,6 +173,7 @@ a.link{color:var(--info);overflow-wrap:anywhere}
       <label>Password</label><input id="lPass" type="password" required autocomplete="current-password">
       <p id="lErr" style="color:var(--bad);min-height:18px;font-size:14px"></p>
       <button class="btn primary" style="width:100%" id="lBtn">Sign in</button>
+      <div class="notr" style="text-align:center;margin-top:14px;font-size:14px">🌐 <a style="cursor:pointer" onclick="setLang('km')">ខ្មែរ</a> · <a style="cursor:pointer" onclick="setLang('en')">English</a> · <a style="cursor:pointer" onclick="setLang('zh')">中文</a></div>
     </form>
   </div>
 </div>
@@ -156,6 +193,7 @@ a.link{color:var(--info);overflow-wrap:anywhere}
     <a data-p="reports"><svg class="ni" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span class="nl">Reports</span></a>
     <a data-p="settings"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg><span class="nl">Settings</span></a>
     <a data-p="admins"><svg class="ni" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg><span class="nl">Admins</span></a>
+    <a id="langBtn" onclick="langPick()"><svg class="ni" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg><span class="nl">Language</span></a>
     <a id="logout"><svg class="ni" viewBox="0 0 24 24"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 16l-4-4 4-4M6 12h11"/></svg><span class="nl">Sign out</span></a>
     <div class="foot" id="who"></div>
   </nav>
@@ -165,6 +203,73 @@ a.link{color:var(--info);overflow-wrap:anywhere}
 <div id="modal" class="hidden"><div class="box" id="mbox"></div></div>
 <div id="toast" class="hidden"></div>
 
+<script id="i18n">/*I18N-START — languages: English / ខ្មែរ / 中文. The words are in the I18N list below. */
+const I18N = {"km":{"Dashboard":"ផ្ទាំងគ្រប់គ្រង","Orders":"ការកម្ម៉ង់","Payment slips":"វិក្កយបត្របង់ប្រាក់","Payments":"ការបង់ប្រាក់","Requests":"សំណើ","Products":"ទំនិញ","Banners":"ផ្ទាំងផ្សាយ","Categories":"ប្រភេទ","Customers":"អតិថិជន","Reports":"របាយការណ៍","Settings":"ការកំណត់","Admins":"អ្នកគ្រប់គ្រង","Sign out":"ចាកចេញ","Sign in":"ចូល","Admin sign in":"ចូលប្រព័ន្ធគ្រប់គ្រង","Email":"អ៊ីមែល","Password":"ពាក្យសម្ងាត់","This account is not an admin.":"គណនីនេះមិនមែនជាអ្នកគ្រប់គ្រងទេ។","Language":"ភាសា","Refresh":"ផ្ទុកឡើងវិញ","All":"ទាំងអស់","Add":"បន្ថែម","Save":"រក្សាទុក","Save changes":"រក្សាទុកការកែប្រែ","Cancel":"បោះបង់","Close":"បិទ","Delete":"លុប","Remove":"ដកចេញ","Open":"បើក","Confirm":"បញ្ជាក់","Yes":"បាទ/ចាស","Deleted":"បានលុប","Saved":"បានរក្សាទុក","Search…":"ស្វែងរក…","Name":"ឈ្មោះ","Phone":"លេខទូរស័ព្ទ","Address":"អាសយដ្ឋាន","Date":"កាលបរិច្ឆេទ","Type":"ប្រភេទ","Status":"ស្ថានភាព","Total":"សរុប","Total {0}":"សរុប {0}","Price":"តម្លៃ","Price $":"តម្លៃ $","Cost":"ថ្លៃដើម","Cost $":"ថ្លៃដើម $","Profit":"ប្រាក់ចំណេញ","Qty":"ចំនួន","Quantity":"ចំនួន","Item":"ទំនិញ","Product":"ទំនិញ","Customer":"អតិថិជន","Category":"ប្រភេទ","Description":"ការពិពណ៌នា","Photos":"រូបភាព","Link":"តំណ","Title":"ចំណងជើង","Role":"តួនាទី","Owner":"ម្ចាស់","Staff":"បុគ្គលិក","(you)":"(អ្នក)","Joined":"ចូលរួម","Telegram":"Telegram","Hidden":"លាក់","Shown":"បង្ហាញ","Move":"ផ្លាស់ទី","Move up":"ផ្លាស់ឡើង","Move down":"ផ្លាស់ចុះ","Nothing":"គ្មាន","— none —":"— គ្មាន —","Uploading…":"កំពុងផ្ទុកឡើង…","Uploading photo…":"កំពុងផ្ទុករូបភាព…","Please upload an image":"សូមផ្ទុករូបភាពឡើង","Skincare":"ថែរក្សាស្បែក","Cosmetics":"គ្រឿងសំអាង","Personal Care":"ថែរក្សាខ្លួន","Health & Wellness":"សុខភាព","Daily Use":"ប្រើប្រចាំថ្ងៃ","Hair Care":"ថែរក្សាសក់","Fragrance & Gift Sets":"ទឹកអប់ និងឈុតកាដូ","Eyelashes & Brows":"រោមភ្នែក និងចិញ្ចើម","Beauty Tools":"ឧបករណ៍សម្ផស្ស","Baby & Kids":"ទារក និងកុមារ","Pre-order / Custom Brand":"កម្ម៉ង់ទុកមុន / ម៉ាកផ្ទាល់ខ្លួន","Profit today":"ប្រាក់ចំណេញថ្ងៃនេះ","Profit this month":"ប្រាក់ចំណេញខែនេះ","Money received today":"ប្រាក់ទទួលបានថ្ងៃនេះ","Slips to check":"វិក្កយបត្រត្រូវពិនិត្យ","New requests":"សំណើថ្មី","Latest orders":"ការកម្ម៉ង់ចុងក្រោយ","Sales {0}":"ការលក់ {0}","Sales {0} · {1} orders":"ការលក់ {0} · ការកម្ម៉ង់ {1}","Cost {0} ·":"ថ្លៃដើម {0} ·","Profit {0}":"ប្រាក់ចំណេញ {0}","New order":"ការកម្ម៉ង់ថ្មី","+ New order":"+ ការកម្ម៉ង់ថ្មី","🔍 Search order, name or phone":"🔍 ស្វែងរកលេខកម្ម៉ង់ ឈ្មោះ ឬលេខទូរស័ព្ទ","New":"ថ្មី","Confirmed":"បានបញ្ជាក់","Shipping":"កំពុងដឹក","Delivered":"បានដឹកដល់","Cancelled":"បានលុបចោល","Sales this month":"ការលក់ខែនេះ","Waiting to confirm":"រង់ចាំបញ្ជាក់","Still owed by customers":"អតិថិជននៅជំពាក់","{0} orders · {1}":"ការកម្ម៉ង់ {0} · {1}","{0} orders":"ការកម្ម៉ង់ {0}","{0} item":"ទំនិញ {0}","{0} items":"ទំនិញ {0}","No orders here":"មិនមានការកម្ម៉ង់","Price not set":"មិនទាន់កំណត់តម្លៃ","Slip to check":"វិក្កយបត្រត្រូវពិនិត្យ","{0} left":"នៅសល់ {0}","Shipping ":"កំពុងដឹក","Pre-order":"កម្ម៉ង់ទុកមុន","Special order":"ការកម្ម៉ង់ពិសេស","Normal":"ធម្មតា","Normal order":"ការកម្ម៉ង់ធម្មតា","Payment":"ការបង់ប្រាក់","Paid {0} of {1}":"បានបង់ {0} ក្នុងចំណោម {1}","Paid {0} of —":"បានបង់ {0} ក្នុងចំណោម —","Still owed":"នៅជំពាក់","Fully paid":"បានបង់គ្រប់","Deposit paid":"បានបង់ប្រាក់កក់","Not paid yet":"មិនទាន់បង់","Price not set yet":"មិនទាន់កំណត់តម្លៃ","slip from customer":"វិក្កយបត្រពីអតិថិជន","added by admin":"បញ្ចូលដោយអ្នកគ្រប់គ្រង","Received":"បានទទួល","Rejected":"បានបដិសេធ","Check slip":"ពិនិត្យវិក្កយបត្រ","💵 Add payment":"💵 បន្ថែមការបង់ប្រាក់","Amount received (cash / transfer)":"ចំនួនទឹកប្រាក់ទទួលបាន (សាច់ប្រាក់ / ផ្ទេរ)","Deposit":"ប្រាក់កក់","Full {0}":"បង់ពេញ {0}","Payment added":"បានបន្ថែមការបង់ប្រាក់","Enter an amount":"សូមបញ្ចូលចំនួនទឹកប្រាក់","no price":"គ្មានតម្លៃ","Set prices":"កំណត់តម្លៃ","Agree the price with the customer on Telegram, then set it here.":"ព្រមព្រៀងតម្លៃជាមួយអតិថិជនតាម Telegram រួចកំណត់វានៅទីនេះ។","💬 {0} items have no price yet":"💬 ទំនិញ {0} មិនទាន់មានតម្លៃ","💬 {0} item has no price yet":"💬 ទំនិញ {0} មិនទាន់មានតម្លៃ","Delivery":"ដឹកជញ្ជូន","📞 Call":"📞 ហៅ","💬 Telegram":"💬 Telegram","Cancel order":"លុបចោលការកម្ម៉ង់","Re-open order":"បើកការកម្ម៉ង់ឡើងវិញ","✏️ Edit order":"✏️ កែការកម្ម៉ង់","Order cancelled":"បានលុបចោលការកម្ម៉ង់","Order re-opened":"បានបើកការកម្ម៉ង់ឡើងវិញ","(slip sent)":"(បានផ្ញើវិក្កយបត្រ)","This order is cancelled.":"ការកម្ម៉ង់នេះត្រូវបានលុបចោល។","Order KB{0}":"ការកម្ម៉ង់ KB{0}","Customer & delivery":"អតិថិជន និងការដឹកជញ្ជូន","Open customer":"បើកអតិថិជន","Contact name":"ឈ្មោះទំនាក់ទំនង","Delivery address":"អាសយដ្ឋានដឹកជញ្ជូន","Customer note":"កំណត់ចំណាំអតិថិជន","Items & price":"ទំនិញ និងតម្លៃ","+ Add product…":"+ បន្ថែមទំនិញ…","+ Other item (type the name)":"+ ទំនិញផ្សេង (វាយឈ្មោះ)","No items — add one below":"គ្មានទំនិញ — បន្ថែមខាងក្រោម","Subtotal {0} · Delivery {1}":"សរុបរង {0} · ដឹកជញ្ជូន {1}","Delivery fee (USD)":"ថ្លៃដឹកជញ្ជូន (USD)","Deposit to pay first (USD)":"ប្រាក់កក់ត្រូវបង់មុន (USD)","Paid so far":"បានបង់រួច","Record payment (cash / transfer) $":"កត់ត្រាការបង់ប្រាក់ (សាច់ប្រាក់ / ផ្ទេរ) $","Record payment":"កត់ត្រាការបង់ប្រាក់","Payment recorded":"បានកត់ត្រាការបង់ប្រាក់","Tip: save other changes first — recording a payment reloads this order.":"គន្លឹះ៖ រក្សាទុកការកែប្រែផ្សេងទៀតជាមុន — ការកត់ត្រាការបង់ប្រាក់នឹងផ្ទុកការកម្ម៉ង់នេះឡើងវិញ។","Supplier order / tracking no.":"លេខកម្ម៉ង់ពីអ្នកផ្គត់ផ្គង់ / លេខតាមដាន","Admin note (customer doesn't see this)":"កំណត់ចំណាំអ្នកគ្រប់គ្រង (អតិថិជនមិនឃើញ)","Admin note":"កំណត់ចំណាំអ្នកគ្រប់គ្រង","History":"ប្រវត្តិ","Delete order":"លុបការកម្ម៉ង់","Order saved":"បានរក្សាទុកការកម្ម៉ង់","Order created":"បានបង្កើតការកម្ម៉ង់","Order deleted":"បានលុបការកម្ម៉ង់","Create order":"បង្កើតការកម្ម៉ង់","Order type":"ប្រភេទការកម្ម៉ង់","For orders by phone, Facebook, walk-in, etc.":"សម្រាប់ការកម្ម៉ង់តាមទូរស័ព្ទ Facebook ឬមកទិញផ្ទាល់ ។ល។","Name, @username or phone…":"ឈ្មោះ @username ឬលេខទូរស័ព្ទ…","+ New customer":"+ អតិថិជនថ្មី","Customer already paid in full":"អតិថិជនបានបង់គ្រប់ហើយ","Add at least one item":"សូមបន្ថែមទំនិញយ៉ាងហោចណាស់មួយ","Every item needs a name":"ទំនិញនីមួយៗត្រូវមានឈ្មោះ","Enter the customer name":"សូមបញ្ចូលឈ្មោះអតិថិជន","Waiting payment":"រង់ចាំការបង់ប្រាក់","Waiting for payment":"រង់ចាំការបង់ប្រាក់","Check slip ":"ពិនិត្យវិក្កយបត្រ","Paid":"បានបង់","Ordered from supplier":"បានកម្ម៉ង់ពីអ្នកផ្គត់ផ្គង់","Shipping to KH":"កំពុងដឹកមកកម្ពុជា","Arrived":"បានមកដល់","Ready to deliver":"រួចរាល់សម្រាប់ដឹក","To check":"ត្រូវពិនិត្យ","Approved":"បានអនុម័ត","approved":"បានអនុម័ត","pending":"រង់ចាំ","Amount":"ចំនួនទឹកប្រាក់","Sent":"បានផ្ញើ","full":"បង់ពេញ","deposit":"ប្រាក់កក់","balance":"ប្រាក់នៅសល់","Payment — KB{0}":"ការបង់ប្រាក់ — KB{0}","Order total {0} · already paid {1}":"សរុបការកម្ម៉ង់ {0} · បានបង់រួច {1}","Amount (USD) — fix it if the slip shows a different amount":"ចំនួនទឹកប្រាក់ (USD) — កែប្រសិនបើវិក្កយបត្របង្ហាញចំនួនផ្សេង","Reject reason (only if rejecting)":"មូលហេតុបដិសេធ (តែពេលបដិសេធ)","e.g. amount does not match":"ឧ. ចំនួនទឹកប្រាក់មិនត្រូវគ្នា","Open order":"បើកការកម្ម៉ង់","Back to \"to check\"":"ត្រឡប់ទៅ \"ត្រូវពិនិត្យ\"","Reject":"បដិសេធ","Approve":"អនុម័ត","Save amount":"រក្សាទុកចំនួន","No slip image (recorded by admin)":"គ្មានរូបវិក្កយបត្រ (កត់ត្រាដោយអ្នកគ្រប់គ្រង)","Payment approved":"បានអនុម័តការបង់ប្រាក់","Payment rejected":"បានបដិសេធការបង់ប្រាក់","Payment deleted":"បានលុបការបង់ប្រាក់","Moved back to \"to check\"":"បានត្រឡប់ទៅ \"ត្រូវពិនិត្យ\"","Please write a reject reason":"សូមសរសេរមូលហេតុបដិសេធ","Nothing here 🎉":"គ្មានអ្វីទេ 🎉","Pre-order / Custom brand requests":"សំណើកម្ម៉ង់ទុកមុន / ម៉ាកផ្ទាល់ខ្លួន","Custom brand":"ម៉ាកផ្ទាល់ខ្លួន","Custom brand request":"សំណើម៉ាកផ្ទាល់ខ្លួន","Pre-order request":"សំណើកម្ម៉ង់ទុកមុន","Customer wants":"អតិថិជនចង់បាន","Customer's photos ({0}) — click to open full size":"រូបភាពរបស់អតិថិជន ({0}) — ចុចដើម្បីមើលទំហំពេញ","Your quote":"តម្លៃដែលអ្នកផ្តល់","Price per item (USD, incl. delivery to Cambodia)":"តម្លៃក្នុងមួយ (USD រួមទាំងដឹកមកកម្ពុជា)","Your cost per item (USD) — customer doesn't see":"ថ្លៃដើមក្នុងមួយ (USD) — អតិថិជនមិនឃើញ","Arrives in (days)":"មកដល់ក្នុង (ថ្ងៃ)","Message to customer":"សារទៅអតិថិជន","Send quote":"ផ្ញើតម្លៃ","Not available":"មិនមាន","Mark this request as not available?":"សម្គាល់សំណើនេះថាមិនមាន?","Delete this request?":"លុបសំណើនេះ?","Quote":"តម្លៃ","Quoted":"បានផ្តល់តម្លៃ","Accepted":"បានទទួលយក","+ Add product":"+ បន្ថែមទំនិញ","Add product":"បន្ថែមទំនិញ","Edit product":"កែទំនិញ","📷 Bulk upload photos":"📷 ផ្ទុករូបភាពច្រើនក្នុងពេលតែមួយ","All categories":"ប្រភេទទាំងអស់","No cost price yet":"មិនទាន់មានថ្លៃដើម","Show in shop":"បង្ហាញក្នុងហាង","Cost price (USD) — only admins see this":"ថ្លៃដើម (USD) — តែអ្នកគ្រប់គ្រងឃើញ","what you pay":"អ្វីដែលអ្នកបង់","Selling price (USD)":"តម្លៃលក់ (USD)","Profit per item:":"ប្រាក់ចំណេញក្នុងមួយ៖","Original price — shown crossed out (optional)":"តម្លៃដើម — បង្ហាញជាឆូត (មិនចាំបាច់)","⚡ Flash sale price (optional)":"⚡ តម្លៃលក់ពិសេស (មិនចាំបាច់)","used only while flash sale runs":"ប្រើតែពេលមានការលក់ពិសេស","Pre-order item (customer pays a deposit first)":"ទំនិញកម្ម៉ង់ទុកមុន (អតិថិជនបង់ប្រាក់កក់មុន)","Deposit % (empty = shop default)":"ប្រាក់កក់ % (ទទេ = លំនាំដើមហាង)","Photos (first photo is the main one)":"រូបភាព (រូបទីមួយជារូបធំ)","Click a photo to make it the main one":"ចុចលើរូបដើម្បីធ្វើជារូបធំ","Click to make main photo":"ចុចដើម្បីធ្វើជារូបធំ","Main photo":"រូបធំ","Duplicate":"ចម្លង","Enter a name":"សូមបញ្ចូលឈ្មោះ","Enter a price":"សូមបញ្ចូលតម្លៃ","Product saved":"បានរក្សាទុកទំនិញ","Copy created (hidden) — edit it now":"បានបង្កើតច្បាប់ចម្លង (លាក់) — កែវាឥឡូវ","Delete this product? Tip: untick \"Show in shop\" instead to just hide it.":"លុបទំនិញនេះ? គន្លឹះ៖ ដោះធីក \"បង្ហាញក្នុងហាង\" ដើម្បីគ្រាន់តែលាក់វា។","{0} margin":"ចំណេញ {0}","⚡ Flash {0}":"⚡ ពិសេស {0}","No products yet — tap \"+ Add product\"":"មិនទាន់មានទំនិញ — ចុច \"+ បន្ថែមទំនិញ\"","A) On a computer — whole folder (recommended)":"A) នៅលើកុំព្យូទ័រ — ថតទាំងមូល (ណែនាំ)","B) On a phone — pick photos for one category":"B) នៅលើទូរស័ព្ទ — ជ្រើសរូបសម្រាប់ប្រភេទមួយ","Choose the unzipped folder":"ជ្រើសរើសថតដែលបានពន្លា",". Each sub-folder becomes a category (missing categories are created automatically). The \"Videos\" folder is skipped.":"។ ថតរងនីមួយៗក្លាយជាប្រភេទមួយ (ប្រភេទដែលមិនទាន់មាននឹងបង្កើតដោយស្វ័យប្រវត្តិ)។ ថត \"Videos\" ត្រូវបានរំលង។","Every photo becomes its own product in the shop. Until you set a price, customers see":"រូបនីមួយៗក្លាយជាទំនិញមួយក្នុងហាង។ មុនពេលអ្នកកំណត់តម្លៃ អតិថិជនឃើញ","\"Ask price\"":"\"សួរតម្លៃ\"","— they can still order it, and you agree the price with them on Telegram. Afterwards open each one and set the real name, cost and selling price.":"— ពួកគេនៅតែអាចកម្ម៉ង់បាន ហើយអ្នកព្រមព្រៀងតម្លៃតាម Telegram។ បន្ទាប់មក បើកម្តងមួយៗ ដើម្បីកំណត់ឈ្មោះ ថ្លៃដើម និងតម្លៃលក់ពិតប្រាកដ។","Replace photos":"ជំនួសរូបភាព","of products that already exist (same file name, e.g.":"នៃទំនិញដែលមានរួចហើយ (ឈ្មោះឯកសារដូចគ្នា ឧ.","). Use this for cleaned photos. Name, prices and other photos stay the same.":")។ ប្រើសម្រាប់រូបដែលបានកែរួច។ ឈ្មោះ តម្លៃ និងរូបផ្សេងទៀតនៅដដែល។","No photos found":"រកមិនឃើញរូបភាព","+ Add banner":"+ បន្ថែមផ្ទាំងផ្សាយ","Add banner":"បន្ថែមផ្ទាំងផ្សាយ","Edit banner":"កែផ្ទាំងផ្សាយ","Shown at the top of the shop and slide automatically. Best size:":"បង្ហាញនៅខាងលើហាង ហើយរំកិលដោយស្វ័យប្រវត្តិ។ ទំហំល្អបំផុត៖","Banner image ({0} × {1} recommended)":"រូបផ្ទាំងផ្សាយ (ណែនាំ {0} × {1})","Title (only for you, e.g. \"Water Festival sale\")":"ចំណងជើង (សម្រាប់តែអ្នក ឧ. \"លក់បុណ្យអុំទូក\")","When customer taps it, open":"ពេលអតិថិជនចុច បើក","A product":"ទំនិញមួយ","A category":"ប្រភេទមួយ","Opens":"បើក","No image yet":"មិនទាន់មានរូបភាព","Banner saved":"បានរក្សាទុកផ្ទាំងផ្សាយ","Delete this banner?":"លុបផ្ទាំងផ្សាយនេះ?","Display order ({0} = first)":"លំដាប់បង្ហាញ ({0} = ទីមួយ)","+ Add category":"+ បន្ថែមប្រភេទ","Add category":"បន្ថែមប្រភេទ","Edit category":"កែប្រភេទ","This is the order customers see in the shop's category sidebar (after \"Featured\"). Use ▲ ▼ to move.":"នេះជាលំដាប់ដែលអតិថិជនឃើញក្នុងរបារប្រភេទរបស់ហាង (បន្ទាប់ពី \"ពិសេស\")។ ប្រើ ▲ ▼ ដើម្បីផ្លាស់ទី។","(fixed menu item)":"(ម៉ឺនុយថេរ)","Picture (square, shown in a circle)":"រូបភាព (ការ៉េ បង្ហាញជារង្វង់)","Delete this category? Its products will stay, without a category.":"លុបប្រភេទនេះ? ទំនិញរបស់វានឹងនៅដដែល ដោយគ្មានប្រភេទ។","+ Add customer":"+ បន្ថែមអតិថិជន","Add customer":"បន្ថែមអតិថិជន","First name":"នាមខ្លួន","Last name":"នាមត្រកូល","Note (only admins see this)":"កំណត់ចំណាំ (តែអ្នកគ្រប់គ្រងឃើញ)","Orders ({0})":"ការកម្ម៉ង់ ({0})","Spent":"បានចំណាយ","Customer saved":"បានរក្សាទុកអតិថិជន","Customer deleted":"បានលុបអតិថិជន","Delete this customer?":"លុបអតិថិជននេះ?","This customer has orders — delete their orders first":"អតិថិជននេះមានការកម្ម៉ង់ — សូមលុបការកម្ម៉ង់របស់ពួកគេជាមុន","No orders":"គ្មានការកម្ម៉ង់","Reports — Profit & Loss":"របាយការណ៍ — ចំណេញ និងខាត","Today":"ថ្ងៃនេះ","Yesterday":"ម្សិលមិញ","This week":"សប្តាហ៍នេះ","This month":"ខែនេះ","Last month":"ខែមុន","This year":"ឆ្នាំនេះ","Choose dates…":"ជ្រើសរើសកាលបរិច្ឆេទ…","Paid orders only":"តែការកម្ម៉ង់ដែលបានបង់","All orders (incl. unpaid)":"ការកម្ម៉ង់ទាំងអស់ (រួមទាំងមិនទាន់បង់)","Sales (products)":"ការលក់ (ទំនិញ)","Cost of products":"ថ្លៃដើមទំនិញ","Delivery fees collected":"ថ្លៃដឹកជញ្ជូនដែលបានប្រមូល","Money received":"ប្រាក់ទទួលបាន","approved payments in this period":"ការបង់ប្រាក់ដែលបានអនុម័តក្នុងរយៈពេលនេះ","Still unpaid":"នៅមិនទាន់បង់","balance on these orders":"ប្រាក់នៅសល់លើការកម្ម៉ង់ទាំងនេះ","By day":"តាមថ្ងៃ","By product":"តាមទំនិញ","Qty sold":"ចំនួនលក់បាន","Sales":"ការលក់","Orders in this report":"ការកម្ម៉ង់ក្នុងរបាយការណ៍នេះ","Download Excel (CSV)":"ទាញយក Excel (CSV)","Shop settings":"ការកំណត់ហាង","Shop name":"ឈ្មោះហាង","📝 Small text above every price in the shop (leave empty to hide)":"📝 អក្សរតូចនៅលើតម្លៃនីមួយៗក្នុងហាង (ទុកទទេដើម្បីលាក់)","e.g. Wholesale price — see photo":"ឧ. តម្លៃដុំ — មើលរូបភាព","💬 Your Telegram username for customers to chat (ask price, questions)":"💬 ឈ្មោះអ្នកប្រើ Telegram របស់អ្នក សម្រាប់អតិថិជនជជែក (សួរតម្លៃ សំណួរ)","e.g. kbeautics_shop (without @)":"ឧ. kbeautics_shop (គ្មាន @)","Customers tap \"Chat with us\" in the shop and it opens a Telegram chat with this account.":"អតិថិជនចុច \"ជជែកជាមួយយើង\" ក្នុងហាង ហើយវានឹងបើកការជជែក Telegram ជាមួយគណនីនេះ។","Bank transfer details (shown at checkout)":"ព័ត៌មានផ្ទេរប្រាក់ធនាគារ (បង្ហាញពេលទូទាត់)","Bank":"ធនាគារ","e.g. ABA":"ឧ. ABA","Account name":"ឈ្មោះគណនី","Account number":"លេខគណនី","Payment QR code image":"រូប QR សម្រាប់បង់ប្រាក់","No QR uploaded":"មិនទាន់ផ្ទុក QR","Default pre-order deposit %":"ប្រាក់កក់លំនាំដើមសម្រាប់កម្ម៉ង់ទុកមុន %","⚡ Flash sale":"⚡ ការលក់ពិសេស","Set a flash price on products (Products page), then choose when the sale ends. The shop shows a countdown; when it ends, normal prices come back automatically.":"កំណត់តម្លៃពិសេសលើទំនិញ (ទំព័រទំនិញ) រួចជ្រើសពេលបញ្ចប់។ ហាងបង្ហាញការរាប់ថយក្រោយ ហើយពេលបញ្ចប់ តម្លៃធម្មតានឹងត្រលប់មកវិញដោយស្វ័យប្រវត្តិ។","Flash sale ends at":"ការលក់ពិសេសបញ្ចប់នៅ","No flash sale (clear)":"គ្មានការលក់ពិសេស (សម្អាត)","No flash sale running.":"គ្មានការលក់ពិសេសកំពុងដំណើរការ។","This time has passed — flash sale is OFF.":"ពេលនេះកន្លងផុតហើយ — ការលក់ពិសេសបានបិទ។","Save settings":"រក្សាទុកការកំណត់","Settings saved":"បានរក្សាទុកការកំណត់","People who can sign in to this admin web.":"អ្នកដែលអាចចូលប្រព័ន្ធគ្រប់គ្រងនេះ។","can manage admins;":"អាចគ្រប់គ្រងអ្នកគ្រប់គ្រង;","can do everything else.":"អាចធ្វើអ្វីៗផ្សេងទៀតបានទាំងអស់។","+ Add admin":"+ បន្ថែមអ្នកគ្រប់គ្រង","Add admin":"បន្ថែមអ្នកគ្រប់គ្រង","Email (they sign in with this)":"អ៊ីមែល (ពួកគេចូលដោយប្រើនេះ)","Password (at least {0} characters — give it to them)":"ពាក្យសម្ងាត់ (យ៉ាងហោចណាស់ {0} តួអក្សរ — ផ្តល់ឲ្យពួកគេ)","Create login":"បង្កើតការចូល","If email confirmation is turned on in Supabase, they must click the link in the email before they can sign in.":"ប្រសិនបើការបញ្ជាក់អ៊ីមែលត្រូវបានបើកក្នុង Supabase ពួកគេត្រូវចុចតំណក្នុងអ៊ីមែលមុនពេលចូល។","Change my password":"ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ","Admin added":"បានបន្ថែមអ្នកគ្រប់គ្រង","Access removed":"បានដកសិទ្ធិ","At least 6 characters":"យ៉ាងហោចណាស់ ៦ តួអក្សរ","Enter an email":"សូមបញ្ចូលអ៊ីមែល","Password changed":"បានប្តូរពាក្យសម្ងាត់","Password must be at least 6 characters":"ពាក្យសម្ងាត់ត្រូវមានយ៉ាងហោចណាស់ ៦ តួអក្សរ","The two passwords are different":"ពាក្យសម្ងាត់ទាំងពីរមិនដូចគ្នា","This email already has an account — use another email":"អ៊ីមែលនេះមានគណនីរួចហើយ — សូមប្រើអ៊ីមែលផ្សេង","Delete this payment? If it was approved, the paid amount of the order goes down.":"លុបការបង់ប្រាក់នេះ? ប្រសិនបើវាត្រូវបានអនុម័ត ចំនួនបានបង់នៃការកម្ម៉ង់នឹងថយចុះ។","Wholesale price (Photos have prices)":"តម្លៃដុំ (តម្លៃមាននៅលើរូបភាព)","Order":"ការកម្ម៉ង់","Added":"បានបន្ថែម","Added by admin":"បញ្ចូលដោយអ្នកគ្រប់គ្រង","Ordered / shipping":"បានកម្ម៉ង់ / កំពុងដឹក","Special order / custom brand":"ការកម្ម៉ង់ពិសេស / ម៉ាកផ្ទាល់ខ្លួន","to deliver":"ត្រូវដឹកជូន","order from supplier":"កម្ម៉ង់ពីអ្នកផ្គត់ផ្គង់","Paid — to deliver":"បានបង់ — ត្រូវដឹកជូន","Deposit paid — order from supplier":"បានបង់ប្រាក់កក់ — កម្ម៉ង់ពីអ្នកផ្គត់ផ្គង់","(deposit) ·":"(ប្រាក់កក់) ·","(full) ·":"(បង់ពេញ) ·","(balance) ·":"(ប្រាក់នៅសល់) ·","full ·":"បង់ពេញ ·","deposit ·":"ប្រាក់កក់ ·","balance ·":"ប្រាក់នៅសល់ ·","· deposit":"· ប្រាក់កក់","· full":"· បង់ពេញ","· balance":"· ប្រាក់នៅសល់","· Balance":"· ប្រាក់នៅសល់","· Customer":"· អតិថិជន","e.g. {0}":"ឧ. {0}","Payment slip":"វិក្កយបត្របង់ប្រាក់"},"zh":{"Dashboard":"仪表盘","Orders":"订单","Payment slips":"付款凭证","Payments":"付款","Requests":"申请","Products":"商品","Banners":"横幅","Categories":"分类","Customers":"客户","Reports":"报表","Settings":"设置","Admins":"管理员","Sign out":"退出登录","Sign in":"登录","Admin sign in":"管理员登录","Email":"邮箱","Password":"密码","This account is not an admin.":"此账号不是管理员。","Language":"语言","Refresh":"刷新","All":"全部","Add":"添加","Save":"保存","Save changes":"保存修改","Cancel":"取消","Close":"关闭","Delete":"删除","Remove":"移除","Open":"打开","Confirm":"确认","Yes":"是","Deleted":"已删除","Saved":"已保存","Search…":"搜索…","Name":"名称","Phone":"电话","Address":"地址","Date":"日期","Type":"类型","Status":"状态","Total":"合计","Total {0}":"合计 {0}","Price":"价格","Price $":"价格 $","Cost":"成本","Cost $":"成本 $","Profit":"利润","Qty":"数量","Quantity":"数量","Item":"商品","Product":"商品","Customer":"客户","Category":"分类","Description":"描述","Photos":"照片","Link":"链接","Title":"标题","Role":"角色","Owner":"店主","Staff":"员工","(you)":"（你）","Joined":"加入时间","Telegram":"Telegram","Hidden":"已隐藏","Shown":"显示","Move":"移动","Move up":"上移","Move down":"下移","Nothing":"无","— none —":"— 无 —","Uploading…":"上传中…","Uploading photo…":"正在上传照片…","Please upload an image":"请上传图片","Skincare":"护肤品","Cosmetics":"彩妆","Personal Care":"个人护理","Health & Wellness":"健康保健","Daily Use":"日用品","Hair Care":"护发","Fragrance & Gift Sets":"香水与礼盒","Eyelashes & Brows":"睫毛与眉毛","Beauty Tools":"美妆工具","Baby & Kids":"母婴儿童","Pre-order / Custom Brand":"预订 / 定制品牌","Profit today":"今日利润","Profit this month":"本月利润","Money received today":"今日收款","Slips to check":"待核对凭证","New requests":"新申请","Latest orders":"最新订单","Sales {0}":"销售额 {0}","Sales {0} · {1} orders":"销售额 {0} · {1} 个订单","Cost {0} ·":"成本 {0} ·","Profit {0}":"利润 {0}","New order":"新订单","+ New order":"+ 新订单","🔍 Search order, name or phone":"🔍 搜索订单号、姓名或电话","New":"新订单","Confirmed":"已确认","Shipping":"配送中","Delivered":"已送达","Cancelled":"已取消","Sales this month":"本月销售额","Waiting to confirm":"待确认","Still owed by customers":"客户欠款","{0} orders · {1}":"{0} 个订单 · {1}","{0} orders":"{0} 个订单","{0} item":"{0} 件","{0} items":"{0} 件","No orders here":"暂无订单","Price not set":"未定价","Slip to check":"待核对凭证","{0} left":"剩余 {0}","Shipping ":"配送中","Pre-order":"预订","Special order":"特别订单","Normal":"普通","Normal order":"普通订单","Payment":"付款","Paid {0} of {1}":"已付 {0} / 共 {1}","Paid {0} of —":"已付 {0} / 共 —","Still owed":"尚欠","Fully paid":"已付清","Deposit paid":"已付定金","Not paid yet":"未付款","Price not set yet":"尚未定价","slip from customer":"客户凭证","added by admin":"管理员添加","Received":"已收到","Rejected":"已拒绝","Check slip":"核对凭证","💵 Add payment":"💵 添加收款","Amount received (cash / transfer)":"收款金额（现金 / 转账）","Deposit":"定金","Full {0}":"全款 {0}","Payment added":"已添加收款","Enter an amount":"请输入金额","no price":"无价格","Set prices":"设置价格","Agree the price with the customer on Telegram, then set it here.":"在 Telegram 与客户谈好价格，然后在这里设置。","💬 {0} items have no price yet":"💬 {0} 件商品尚未定价","💬 {0} item has no price yet":"💬 {0} 件商品尚未定价","Delivery":"运费","📞 Call":"📞 打电话","💬 Telegram":"💬 Telegram","Cancel order":"取消订单","Re-open order":"重新打开订单","✏️ Edit order":"✏️ 编辑订单","Order cancelled":"订单已取消","Order re-opened":"订单已重新打开","(slip sent)":"（已发凭证）","This order is cancelled.":"此订单已取消。","Order KB{0}":"订单 KB{0}","Customer & delivery":"客户与配送","Open customer":"打开客户","Contact name":"联系人","Delivery address":"收货地址","Customer note":"客户备注","Items & price":"商品与价格","+ Add product…":"+ 添加商品…","+ Other item (type the name)":"+ 其他商品（输入名称）","No items — add one below":"没有商品——请在下方添加","Subtotal {0} · Delivery {1}":"小计 {0} · 运费 {1}","Delivery fee (USD)":"运费（美元）","Deposit to pay first (USD)":"需先付定金（美元）","Paid so far":"已付金额","Record payment (cash / transfer) $":"记录收款（现金 / 转账）$","Record payment":"记录收款","Payment recorded":"已记录收款","Tip: save other changes first — recording a payment reloads this order.":"提示：请先保存其他修改——记录收款会重新加载此订单。","Supplier order / tracking no.":"供应商订单 / 物流单号","Admin note (customer doesn't see this)":"管理员备注（客户看不到）","Admin note":"管理员备注","History":"记录","Delete order":"删除订单","Order saved":"订单已保存","Order created":"订单已创建","Order deleted":"订单已删除","Create order":"创建订单","Order type":"订单类型","For orders by phone, Facebook, walk-in, etc.":"用于电话、Facebook、到店等订单。","Name, @username or phone…":"姓名、@用户名或电话…","+ New customer":"+ 新客户","Customer already paid in full":"客户已全额付款","Add at least one item":"请至少添加一件商品","Every item needs a name":"每件商品都需要名称","Enter the customer name":"请输入客户姓名","Waiting payment":"待付款","Waiting for payment":"待付款","Check slip ":"核对凭证","Paid":"已付","Ordered from supplier":"已向供应商下单","Shipping to KH":"运往柬埔寨","Arrived":"已到货","Ready to deliver":"待配送","To check":"待核对","Approved":"已通过","approved":"已通过","pending":"待处理","Amount":"金额","Sent":"发送时间","full":"全款","deposit":"定金","balance":"尾款","Payment — KB{0}":"付款 — KB{0}","Order total {0} · already paid {1}":"订单总额 {0} · 已付 {1}","Amount (USD) — fix it if the slip shows a different amount":"金额（美元）——如凭证金额不同请修改","Reject reason (only if rejecting)":"拒绝原因（仅拒绝时填写）","e.g. amount does not match":"例如：金额不符","Open order":"打开订单","Back to \"to check\"":"退回“待核对”","Reject":"拒绝","Approve":"通过","Save amount":"保存金额","No slip image (recorded by admin)":"无凭证图片（管理员记录）","Payment approved":"付款已通过","Payment rejected":"付款已拒绝","Payment deleted":"付款已删除","Moved back to \"to check\"":"已退回“待核对”","Please write a reject reason":"请填写拒绝原因","Nothing here 🎉":"这里没有内容 🎉","Pre-order / Custom brand requests":"预订 / 定制品牌申请","Custom brand":"定制品牌","Custom brand request":"定制品牌申请","Pre-order request":"预订申请","Customer wants":"客户需求","Customer's photos ({0}) — click to open full size":"客户照片（{0}）——点击查看大图","Your quote":"你的报价","Price per item (USD, incl. delivery to Cambodia)":"单价（美元，含运到柬埔寨）","Your cost per item (USD) — customer doesn't see":"你的单件成本（美元）——客户看不到","Arrives in (days)":"到货天数","Message to customer":"给客户的留言","Send quote":"发送报价","Not available":"无货","Mark this request as not available?":"将此申请标记为无货？","Delete this request?":"删除此申请？","Quote":"报价","Quoted":"已报价","Accepted":"已接受","+ Add product":"+ 添加商品","Add product":"添加商品","Edit product":"编辑商品","📷 Bulk upload photos":"📷 批量上传照片","All categories":"全部分类","No cost price yet":"尚无成本价","Show in shop":"在商店显示","Cost price (USD) — only admins see this":"成本价（美元）——仅管理员可见","what you pay":"你的进价","Selling price (USD)":"售价（美元）","Profit per item:":"单件利润：","Original price — shown crossed out (optional)":"原价——显示为划线价（选填）","⚡ Flash sale price (optional)":"⚡ 限时价（选填）","used only while flash sale runs":"仅在限时抢购期间使用","Pre-order item (customer pays a deposit first)":"预订商品（客户先付定金）","Deposit % (empty = shop default)":"定金 %（留空 = 店铺默认）","Photos (first photo is the main one)":"照片（第一张为主图）","Click a photo to make it the main one":"点击照片设为主图","Click to make main photo":"点击设为主图","Main photo":"主图","Duplicate":"复制","Enter a name":"请输入名称","Enter a price":"请输入价格","Product saved":"商品已保存","Copy created (hidden) — edit it now":"已创建副本（隐藏）——现在编辑","Delete this product? Tip: untick \"Show in shop\" instead to just hide it.":"删除此商品？提示：取消勾选“在商店显示”即可隐藏。","{0} margin":"利润率 {0}","⚡ Flash {0}":"⚡ 限时 {0}","No products yet — tap \"+ Add product\"":"暂无商品——点击“+ 添加商品”","A) On a computer — whole folder (recommended)":"A) 电脑——整个文件夹（推荐）","B) On a phone — pick photos for one category":"B) 手机——为一个分类选择照片","Choose the unzipped folder":"选择已解压的文件夹",". Each sub-folder becomes a category (missing categories are created automatically). The \"Videos\" folder is skipped.":"。每个子文件夹成为一个分类（缺少的分类会自动创建）。“Videos”文件夹会被跳过。","Every photo becomes its own product in the shop. Until you set a price, customers see":"每张照片都会成为商店里的一个商品。在你设置价格之前，客户看到的是","\"Ask price\"":"“询价”","— they can still order it, and you agree the price with them on Telegram. Afterwards open each one and set the real name, cost and selling price.":"——他们仍可下单，你在 Telegram 上与他们谈价格。之后逐个打开，设置真实名称、成本和售价。","Replace photos":"替换照片","of products that already exist (same file name, e.g.":"已存在商品的照片（文件名相同，例如","). Use this for cleaned photos. Name, prices and other photos stay the same.":"）。用于已处理的照片。名称、价格和其他照片保持不变。","No photos found":"未找到照片","+ Add banner":"+ 添加横幅","Add banner":"添加横幅","Edit banner":"编辑横幅","Shown at the top of the shop and slide automatically. Best size:":"显示在商店顶部并自动轮播。最佳尺寸：","Banner image ({0} × {1} recommended)":"横幅图片（建议 {0} × {1}）","Title (only for you, e.g. \"Water Festival sale\")":"标题（仅自己可见，例如“送水节促销”）","When customer taps it, open":"客户点击后打开","A product":"某个商品","A category":"某个分类","Opens":"打开","No image yet":"暂无图片","Banner saved":"横幅已保存","Delete this banner?":"删除此横幅？","Display order ({0} = first)":"显示顺序（{0} = 第一）","+ Add category":"+ 添加分类","Add category":"添加分类","Edit category":"编辑分类","This is the order customers see in the shop's category sidebar (after \"Featured\"). Use ▲ ▼ to move.":"这是客户在商店分类侧栏看到的顺序（在“精选”之后）。用 ▲ ▼ 移动。","(fixed menu item)":"（固定菜单项）","Picture (square, shown in a circle)":"图片（方形，以圆形显示）","Delete this category? Its products will stay, without a category.":"删除此分类？其商品会保留，但没有分类。","+ Add customer":"+ 添加客户","Add customer":"添加客户","First name":"名","Last name":"姓","Note (only admins see this)":"备注（仅管理员可见）","Orders ({0})":"订单（{0}）","Spent":"消费","Customer saved":"客户已保存","Customer deleted":"客户已删除","Delete this customer?":"删除此客户？","This customer has orders — delete their orders first":"该客户有订单——请先删除其订单","No orders":"没有订单","Reports — Profit & Loss":"报表 — 损益","Today":"今天","Yesterday":"昨天","This week":"本周","This month":"本月","Last month":"上月","This year":"今年","Choose dates…":"选择日期…","Paid orders only":"仅已付款订单","All orders (incl. unpaid)":"全部订单（含未付款）","Sales (products)":"销售额（商品）","Cost of products":"商品成本","Delivery fees collected":"已收运费","Money received":"已收款","approved payments in this period":"本期已通过的付款","Still unpaid":"仍未付","balance on these orders":"这些订单的余额","By day":"按天","By product":"按商品","Qty sold":"销量","Sales":"销售额","Orders in this report":"本报表中的订单","Download Excel (CSV)":"下载 Excel（CSV）","Shop settings":"商店设置","Shop name":"店铺名称","📝 Small text above every price in the shop (leave empty to hide)":"📝 商店每个价格上方的小字（留空则隐藏）","e.g. Wholesale price — see photo":"例如：批发价——见图片","💬 Your Telegram username for customers to chat (ask price, questions)":"💬 你的 Telegram 用户名，供客户聊天（询价、咨询）","e.g. kbeautics_shop (without @)":"例如：kbeautics_shop（不带 @）","Customers tap \"Chat with us\" in the shop and it opens a Telegram chat with this account.":"客户在商店点击“联系我们”，就会打开与此账号的 Telegram 聊天。","Bank transfer details (shown at checkout)":"银行转账信息（结算时显示）","Bank":"银行","e.g. ABA":"例如：ABA","Account name":"账户名","Account number":"账号","Payment QR code image":"收款二维码图片","No QR uploaded":"未上传二维码","Default pre-order deposit %":"预订默认定金 %","⚡ Flash sale":"⚡ 限时抢购","Set a flash price on products (Products page), then choose when the sale ends. The shop shows a countdown; when it ends, normal prices come back automatically.":"在商品页设置限时价，然后选择结束时间。商店会显示倒计时；结束后自动恢复原价。","Flash sale ends at":"限时抢购结束时间","No flash sale (clear)":"无限时抢购（清除）","No flash sale running.":"当前没有限时抢购。","This time has passed — flash sale is OFF.":"该时间已过——限时抢购已关闭。","Save settings":"保存设置","Settings saved":"设置已保存","People who can sign in to this admin web.":"可以登录此管理后台的人。","can manage admins;":"可管理管理员；","can do everything else.":"可做其他所有操作。","+ Add admin":"+ 添加管理员","Add admin":"添加管理员","Email (they sign in with this)":"邮箱（用于登录）","Password (at least {0} characters — give it to them)":"密码（至少 {0} 个字符——告诉对方）","Create login":"创建登录","If email confirmation is turned on in Supabase, they must click the link in the email before they can sign in.":"如果 Supabase 开启了邮箱验证，对方需先点击邮件中的链接才能登录。","Change my password":"修改我的密码","Admin added":"已添加管理员","Access removed":"已移除权限","At least 6 characters":"至少 6 个字符","Enter an email":"请输入邮箱","Password changed":"密码已修改","Password must be at least 6 characters":"密码至少 6 个字符","The two passwords are different":"两次密码不一致","This email already has an account — use another email":"此邮箱已有账号——请换一个邮箱","Delete this payment? If it was approved, the paid amount of the order goes down.":"删除此付款？如果已通过，订单的已付金额会减少。","Wholesale price (Photos have prices)":"批发价（价格见图片）","Order":"订单","Added":"添加时间","Added by admin":"管理员添加","Ordered / shipping":"已下单 / 运送中","Special order / custom brand":"特别订单 / 定制品牌","to deliver":"待配送","order from supplier":"向供应商下单","Paid — to deliver":"已付款 — 待配送","Deposit paid — order from supplier":"已付定金 — 向供应商下单","(deposit) ·":"（定金）·","(full) ·":"（全款）·","(balance) ·":"（尾款）·","full ·":"全款 ·","deposit ·":"定金 ·","balance ·":"尾款 ·","· deposit":"· 定金","· full":"· 全款","· balance":"· 尾款","· Balance":"· 余额","· Customer":"· 客户","e.g. {0}":"例如：{0}","Payment slip":"付款凭证"}};
+const I18N_PRE = [["Remove admin access for ","ដកសិទ្ធិអ្នកគ្រប់គ្រងពី ","移除管理员权限："],["Flash sale is ON until ","ការលក់ពិសេសកំពុងដំណើរការរហូតដល់ ","限时抢购进行中，截止 "],["Category created: ","បានបង្កើតប្រភេទ៖ ","已创建分类："],["Customer note: ","កំណត់ចំណាំអតិថិជន៖ ","客户备注："],["Delete order ","លុបការកម្ម៉ង់ ","删除订单 "],["Reason: ","មូលហេតុ៖ ","原因："],["· since ","· តាំងពី ","· 自 "],["Error: ","កំហុស៖ ","错误："]];
+const LANGS = [['km','ខ្មែរ'],['en','English'],['zh','中文']];
+let LANG = (() => { try { return localStorage.getItem('kb_lang') || ''; } catch(_) { return ''; } })() || ('en');
+const LOC = () => ({ km:'km-KH', zh:'zh-CN' }[LANG] || 'en-GB');
+const I18N_NUM = /\$?-?\d[\d,]*(?:\.\d+)?%?/g;
+const I18N_MON = { en:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+  km:['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'] };
+function fmtD(d, o = {}){ // date in the chosen language. o.t = with time, o.y = with year
+  d = new Date(d); if (isNaN(d)) return '';
+  const p2 = n => String(n).padStart(2, '0'), tm = p2(d.getHours()) + ':' + p2(d.getMinutes());
+  if (LANG === 'zh') return (o.y ? d.getFullYear() + '年' : '') + (d.getMonth()+1) + '月' + d.getDate() + '日' + (o.t ? ' ' + tm : '');
+  return p2(d.getDate()) + ' ' + (I18N_MON[LANG] || I18N_MON.en)[d.getMonth()] + (o.y ? ' ' + d.getFullYear() : '') + (o.t ? (LANG === 'en' ? ', ' : ' ') + tm : '');
+}
+function i18nOne(core){
+  const d = I18N[LANG]; if (!d) return null;
+  core = core.replace(/\s+/g, ' ');
+  if (d[core] != null) return d[core];
+  const nums = []; const tpl = core.replace(I18N_NUM, x => { nums.push(x); return '{' + (nums.length-1) + '}'; });
+  if (nums.length && d[tpl] != null) return d[tpl].replace(/\{(\d)\}/g, (_, i) => nums[i]);
+  for (const [p, km, zh] of I18N_PRE) if (core.startsWith(p)) return (LANG === 'km' ? km : zh) + core.slice(p.length);
+  for (const sep of [' · ', ' — ', ': ']) if (core.includes(sep)) {
+    let any = false;
+    const out = core.split(sep).map(x => { const t = x.trim(); if (!t || !/[A-Za-z]/.test(t)) return x; const r = i18nOne(t); if (r == null) return x; any = true; return x.replace(t, r); });
+    if (any) return out.join(sep);
+  }
+  return null;
+}
+function T(s){
+  if (LANG === 'en' || s == null) return s;
+  const str = String(s), m = str.match(/^(\s*)([\s\S]*?)(\s*)$/), core = m[2];
+  if (!core || !/[A-Za-z]/.test(core)) return str;
+  const r = i18nOne(core); return r == null ? str : m[1] + r + m[3];
+}
+const I18N_ATTR = ['placeholder', 'title', 'aria-label'];
+function i18nText(n){
+  const p = n.parentElement; if (!p || /^(SCRIPT|STYLE|TEXTAREA)$/.test(p.tagName) || p.closest('.notr')) return;
+  const v = n.nodeValue; if (n.__t === v || LANG === 'en') return;
+  n.__en = v; const r = T(v); if (r !== v) n.nodeValue = r; n.__t = n.nodeValue;
+}
+function i18nAttrs(el){
+  if (!el.getAttribute || el.closest('.notr')) return;
+  for (const a of I18N_ATTR){ const v = el.getAttribute(a); if (v == null) continue; el.__ta = el.__ta || {};
+    if (el.__ta[a] && el.__ta[a].t === v) continue; if (LANG === 'en') { el.__ta[a] = { en: v, t: v }; continue; } const r = T(v); el.__ta[a] = { en: v, t: r }; if (r !== v) el.setAttribute(a, r); }
+}
+function i18nTree(root){
+  if (root.nodeType === 3) return i18nText(root);
+  if (root.nodeType !== 1) return;
+  i18nAttrs(root); root.querySelectorAll('[placeholder],[title],[aria-label]').forEach(i18nAttrs);
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) i18nText(n);
+}
+function i18nReset(){ // back to English, then translate again in the new language
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); let n;
+  while ((n = w.nextNode())) if (n.__en != null && n.__t === n.nodeValue){ n.nodeValue = n.__en; n.__t = null; }
+  document.querySelectorAll('*').forEach(el => { if (el.__ta) { for (const a in el.__ta) if (el.getAttribute(a) === el.__ta[a].t) el.setAttribute(a, el.__ta[a].en); el.__ta = null; } });
+  i18nTree(document.body);
+}
+new MutationObserver(ms => { if (LANG === 'en') return; for (const m of ms){
+  if (m.type === 'characterData') i18nText(m.target);
+  else if (m.type === 'attributes') i18nAttrs(m.target);
+  else m.addedNodes.forEach(i18nTree); } }).observe(document.documentElement, { childList:true, subtree:true, characterData:true, attributes:true, attributeFilter:I18N_ATTR });
+document.documentElement.lang = LANG;
+{ const _c = window.confirm.bind(window); window.confirm = m => _c(T(m)); }
+i18nTree(document.body); document.addEventListener('DOMContentLoaded', () => i18nTree(document.body));
+function setLang(l){ LANG = l; try { localStorage.setItem('kb_lang', l); } catch(_){} document.documentElement.lang = l; i18nReset(); if (typeof onLangChange === 'function') onLangChange(); }
+/*I18N-END*/</script>
 <script>
 // ====== CONFIG ======
 const SUPABASE_URL = 'https://mirdoyaqswbexricqybv.supabase.co';
@@ -185,7 +290,7 @@ const $ = s => document.querySelector(s);
 const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const money = n => '$' + Number(n || 0).toFixed(2);
 const toLocalInput = iso => { const d = new Date(iso); return new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,16); };
-const dt = d => d ? new Date(d).toLocaleString('en-GB',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '';
+const dt = d => d ? fmtD(d,{t:1}) : '';
 const badge = (s, map) => `<span class="badge b-${esc(s)}">${esc((map||{})[s] || s)}</span>`;
 const custName = c => c ? esc([c.first_name, c.last_name].filter(Boolean).join(' ') || (c.username ? '@'+c.username : 'Customer')) : '—';
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.remove('hidden'); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.add('hidden'),2600); }
@@ -200,6 +305,13 @@ async function uploadImage(file, folder='products'){
   if (fail(error)) return null;
   return sb.storage.from('product-images').getPublicUrl(path).data.publicUrl;
 }
+
+// ====== LANGUAGE ======
+function langPick(){
+  openModal(`<h3>Language</h3>` + LANGS.map(([k,n]) => `<button class="btn ${k===LANG?'primary':''} notr" style="width:100%;margin-bottom:8px" onclick="closeModal();setLang('${k}')">${n}</button>`).join('')
+    + `<div class="mfoot"><button class="btn" onclick="closeModal()">Close</button></div>`);
+}
+function onLangChange(){ if (!$('#app').classList.contains('hidden')) go(page); }
 
 // ====== AUTH ======
 async function start(){
@@ -295,27 +407,155 @@ function orderTable(rows){
   ${rows.map(o=>`<tr class="click" onclick="orderDetail(${o.id})"><td><b>${esc(o.order_no)}</b></td><td>${custName(o.customers)}</td><td class="hide-m">${esc(ORDER_TYPE[o.order_type])}</td><td>${badge(o.status,ORDER_STATUS)}</td><td>${money(o.total_usd)}</td><td class="hide-m">${money(o.paid_usd)}</td><td class="hide-m muted">${dt(o.created_at)}</td></tr>`).join('')}
   </tbody></table>`;
 }
+// ====== ORDERS — same layout as the K-TRONiCS app (Sales / POS) ======
+const STAGES = {
+  new:       { label:'New',       pill:'or', st:['pending_payment','payment_review'] },
+  confirmed: { label:'Confirmed', pill:'bl', st:['paid','deposit_paid','ordered_taobao','arrived','ready'] },
+  shipping:  { label:'Shipping',  pill:'pu', st:['shipping'] },
+  delivered: { label:'Delivered', pill:'gr', st:['delivered'] },
+  cancelled: { label:'Cancelled', pill:'rd', st:['cancelled'] }
+};
+const stageOf = st => Object.keys(STAGES).find(k => STAGES[k].st.includes(st)) || 'new';
+const stagePill = st => { const g = STAGES[stageOf(st)]; return `<span class="kpill ${g.pill}">${g.label}</span>`; };
+const balanceOf = o => r2(Number(o.total_usd) - Number(o.paid_usd));
+const noPriceItems = o => (o.order_items||[]).filter(i => !(Number(i.unit_price_usd) > 0));
+const NEXT = { new:['confirmed','Confirm','green'], confirmed:['shipping','Shipping',''], shipping:['delivered','Delivered','green'] };
+// status saved in the database for "Confirmed", based on what was paid
+const prepStatus = o => (Number(o.paid_usd) >= Number(o.total_usd) && Number(o.total_usd) > 0) ? 'paid' : Number(o.paid_usd) > 0 ? 'deposit_paid' : 'ready';
+async function setStage(id, stage, ask=false){
+  const { data:o, error } = await sb.from('orders').select('id,order_no,status,total_usd,paid_usd').eq('id', id).single(); if (fail(error)) return false;
+  if (ask && !confirm(`${o.order_no}: ${STAGES[stage].label}?`)) return false;
+  const status = stage === 'new' ? 'pending_payment' : stage === 'confirmed' ? prepStatus(o) : stage;
+  const r = await sb.from('orders').update({ status }).eq('id', id); if (fail(r.error)) return false;
+  refreshPills(); return true;
+}
+const custOf = o => o.contact_name || [o.customers?.first_name, o.customers?.last_name].filter(Boolean).join(' ') || (o.customers?.username ? '@'+o.customers.username : 'Customer');
+function rightPill(o){
+  if (noPriceItems(o).length) return `<span class="kpill or">Price not set</span>`;
+  if ((o.payments||[]).some(p => p.status === 'pending')) return `<span class="kpill or">Slip to check</span>`;
+  const bal = balanceOf(o);
+  if (stageOf(o.status) !== 'cancelled' && Number(o.paid_usd) > 0 && bal > 0) return `<span class="kpill or">${money(bal)} left</span>`;
+  return stagePill(o.status);
+}
+let OTAB = 'all';
 async function orders(){
   $('#main').innerHTML = `
-    <div class="top"><h2>Orders</h2>
-      <div class="filters">
-        <input id="fSearch" placeholder="Order no…" style="width:130px">
-        <select id="fType"><option value="">All types</option>${Object.entries(ORDER_TYPE).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
-        <select id="fStatus"><option value="">All statuses</option>${Object.entries(ORDER_STATUS).map(([k,v])=>`<option value="${k}">${v}</option>`).join('')}</select>
-        <button class="btn primary" onclick="newOrder()">+ New order</button>
-      </div></div>
-    <div class="card tablewrap" id="olist"><div class="empty">Loading…</div></div>`;
-  const load = async () => {
-    let q = sb.from('orders').select('*, customers(first_name,last_name,username)').order('created_at',{ascending:false}).limit(300);
-    if ($('#fType').value) q = q.eq('order_type', $('#fType').value);
-    if ($('#fStatus').value) q = q.eq('status', $('#fStatus').value);
-    if ($('#fSearch').value.trim()) q = q.ilike('order_no', '%'+$('#fSearch').value.trim()+'%');
-    const { data, error } = await q; if (fail(error)) return;
-    $('#olist').innerHTML = orderTable(data||[]);
+    <div class="top"><h2>Orders</h2><button class="btn primary" onclick="newOrder()">+ New order</button></div>
+    <div class="kchips" id="chips"></div>
+    <div class="ksearch"><input id="fSearch" placeholder="🔍 Search order, name or phone"></div>
+    <div class="kkpis" id="kpis"></div>
+    <div class="ksum muted" id="sum"></div>
+    <div class="kcard flush" id="olist"><div class="empty">Loading…</div></div>`;
+  const { data, error } = await sb.from('orders')
+    .select('id,order_no,status,order_type,created_at,total_usd,paid_usd,contact_name,contact_phone,customers(first_name,last_name,username),order_items(qty,unit_price_usd),payments(status)')
+    .order('created_at',{ascending:false}).limit(1000);
+  if (fail(error)) return;
+  const all = data || [];
+  const draw = () => {
+    const t = $('#fSearch').value.trim().toLowerCase();
+    const base = all.filter(o => !t || [o.order_no, custOf(o), o.contact_phone, o.customers?.username].some(x => String(x||'').toLowerCase().includes(t)));
+    const inTab = (o, k) => k === 'all' ? stageOf(o.status) !== 'cancelled' : stageOf(o.status) === k;
+    $('#chips').innerHTML = [['all','All'], ...Object.entries(STAGES).map(([k,g]) => [k, g.label])]
+      .map(([k,l]) => `<button class="kchip ${OTAB===k?'on':''}" data-f="${k}">${l} <span>${base.filter(o => inTab(o,k)).length}</span></button>`).join('');
+    $('#chips').querySelectorAll('[data-f]').forEach(b => b.onclick = () => { OTAB = b.dataset.f; draw(); });
+    const month = new Date().toISOString().slice(0,7);
+    const sold = all.filter(o => ['confirmed','shipping','delivered'].includes(stageOf(o.status)) && o.created_at.slice(0,7) === month).reduce((a,o) => a + Number(o.total_usd), 0);
+    const waiting = all.filter(o => stageOf(o.status) === 'new').reduce((a,o) => a + Number(o.total_usd), 0);
+    const owed = all.filter(o => !['new','cancelled'].includes(stageOf(o.status))).reduce((a,o) => a + Math.max(0, balanceOf(o)), 0);
+    $('#kpis').innerHTML = `<div class="kstat"><b class="gr">${money(sold)}</b><span>Sales this month</span></div><div class="kstat"><b class="or">${money(waiting)}</b><span>Waiting to confirm</span></div><div class="kstat"><b class="rd">${money(owed)}</b><span>Still owed by customers</span></div>`;
+    const list = base.filter(o => inTab(o, OTAB));
+    $('#sum').textContent = `${list.length} orders · ${money(list.reduce((a,o)=>a+Number(o.total_usd),0))}`;
+    $('#olist').innerHTML = !list.length ? '<div class="empty">No orders here</div>' : list.slice(0, 300).map(o => {
+      const nx = NEXT[stageOf(o.status)], n = (o.order_items||[]).reduce((a,i)=>a+Number(i.qty),0);
+      return `<div class="kitem">
+        <button class="grow kopen" data-open="${o.id}"><div class="ktt">${esc(o.order_no)} · ${esc(custOf(o))}</div>
+          <div class="kst">${o.contact_phone?esc(o.contact_phone)+' · ':''}${dt(o.created_at)} · ${n} item${n===1?'':'s'}${o.order_type!=='stock'?' · '+esc(ORDER_TYPE[o.order_type]):''}</div></button>
+        <div class="kright"><b>${noPriceItems(o).length?'—':money(o.total_usd)}</b>${rightPill(o)}</div>
+        ${nx ? `<button class="kbtn sm ${nx[2]} knext" data-next="${o.id}" data-st="${nx[0]}">${nx[1]}</button>` : '<div class="knext"></div>'}
+      </div>`; }).join('');
+    $('#olist').querySelectorAll('[data-open]').forEach(b => b.onclick = () => orderDetail(+b.dataset.open));
+    $('#olist').querySelectorAll('[data-next]').forEach(b => b.onclick = async () => {
+      b.disabled = true;
+      if (await setStage(+b.dataset.next, b.dataset.st)){
+        const o = all.find(x => x.id === +b.dataset.next); const r = await sb.from('orders').select('status').eq('id', o.id).single();
+        o.status = r.data?.status || o.status; toast(`${o.order_no} → ${STAGES[b.dataset.st].label}`); draw();
+      } else b.disabled = false;
+    });
   };
-  $('#fType').onchange = load; $('#fStatus').onchange = load;
-  $('#fSearch').oninput = () => { clearTimeout(load._t); load._t = setTimeout(load, 300); };
-  load();
+  $('#fSearch').oninput = () => { clearTimeout(draw._t); draw._t = setTimeout(draw, 200); };
+  draw();
+}
+
+// one order (like K-TRONiCS: big total, Payment card, items, history, one main button)
+async function orderDetail(id){
+  const [{ data:o, error }, { data:admins }] = await Promise.all([
+    sb.from('orders').select('*, customers(*), order_items(*), payments(*), order_status_log(*)').eq('id', id).single(),
+    sb.from('admin_users').select('user_id,full_name,email')]);
+  if (fail(error)) return;
+  const who = uid => { if (!uid) return 'Customer'; const a = (admins||[]).find(x => x.user_id === uid); return a ? (a.full_name || a.email) : 'Admin'; };
+  const c = o.customers || {}, st = stageOf(o.status), bal = balanceOf(o), np = noPriceItems(o), nx = NEXT[st];
+  const pays = (o.payments||[]).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  const pend = pays.filter(p => p.status === 'pending');
+  const pct = Number(o.total_usd) > 0 ? Math.min(100, Number(o.paid_usd) / Number(o.total_usd) * 100) : 0;
+  const logs = (o.order_status_log||[]).sort((a,b)=>new Date(a.created_at)-new Date(b.created_at));
+  const payLbl = np.length ? 'Price not set yet' : bal <= 0 ? 'Fully paid' : Number(o.paid_usd) > 0 ? 'Deposit paid' : 'Not paid yet';
+  openModal(`<div id="oView" class="ksheet">
+    <div class="ksh">${esc(o.order_no)} · ${esc(custOf(o))}</div>
+    <div class="krow"><div class="grow"><div class="kbig">${np.length?'—':money(o.total_usd)}</div><div class="kst">${payLbl} · ${dt(o.created_at)}${o.order_type!=='stock'?' · '+esc(ORDER_TYPE[o.order_type]):''}</div></div>${stagePill(o.status)}</div>
+
+    ${np.length?`<div class="kcard" style="background:var(--k-ors);border-color:transparent;color:var(--k-or)"><b>💬 ${np.length} item${np.length>1?'s have':' has'} no price yet</b>
+      <div class="kst" style="color:inherit;white-space:normal">Agree the price with the customer on Telegram, then set it here.</div>
+      <button class="kbtn sm" id="oSetPrice">Set prices</button></div>`:''}
+
+    <div class="kcard">
+      <div class="krow"><b class="grow">Payment</b><span class="kst" style="margin:0">Paid ${money(o.paid_usd)} of ${np.length?'—':money(o.total_usd)}</span></div>
+      <div class="kpaybar"><div style="width:${pct}%"></div></div>
+      <div class="krow"><span class="grow">${bal > 0 || np.length ? 'Still owed' : 'Fully paid'}</span><b style="color:${bal > 0 || np.length ? 'var(--k-rd)' : 'var(--k-gr)'}">${np.length?'—':money(Math.max(0,bal))}</b></div>
+      ${pays.length?`<div class="kplist">${pays.map(p=>`<div class="krow kpay">
+        <div class="grow"><div style="font-weight:700">${money(p.amount_usd)} <span class="kst" style="display:inline">· ${esc(p.payment_kind)}</span></div><div class="kst">${dt(p.created_at)} · ${p.slip_path?'slip from customer':'added by admin'}</div></div>
+        ${p.status==='pending'?`<button class="kbtn sm green" onclick="paymentDetail(${p.id})">Check slip</button>`:`<span class="kpill ${p.status==='approved'?'gr':'rd'}">${p.status==='approved'?'Received':'Rejected'}</span><button class="kbtn sm out" onclick="paymentDetail(${p.id})">Open</button>`}
+      </div>`).join('')}</div>`:''}
+      ${st!=='cancelled' && !np.length && bal > 0 && !pend.length ? `<button class="kbtn green" id="col">💵 Add payment</button>
+        <div id="colBox" class="hidden kcol">
+          <label style="margin:0">Amount received (cash / transfer)</label>
+          <input id="pyAmt" type="number" step="0.01" min="0" value="${bal}">
+          <div class="kbtns"><button class="kbtn out" id="pyDep">Deposit</button><button class="kbtn green" id="pyFull">Full ${money(bal)}</button></div>
+        </div>` : ''}
+    </div>
+
+    <div class="kcard">
+      ${(o.order_items||[]).map(i=>`<div class="krow"><div class="grow"><div style="font-weight:600">${esc(i.product_name)}</div><div class="kst">${i.qty} × ${Number(i.unit_price_usd)>0?money(i.unit_price_usd):'<span style="color:var(--k-or)">no price</span>'}</div></div><b>${Number(i.unit_price_usd)>0?money(i.unit_price_usd*i.qty):'—'}</b></div>`).join('')}
+      ${+o.delivery_fee_usd?`<div class="krow"><span class="grow kst" style="margin:0">Delivery</span><b>${money(o.delivery_fee_usd)}</b></div>`:''}
+    </div>
+
+    <div class="kcard">
+      <div class="krow"><div class="grow"><div style="font-weight:700">${esc(custOf(o))}</div>
+        ${o.contact_phone?`<div class="kst">📞 ${esc(o.contact_phone)}</div>`:''}${o.delivery_address?`<div class="kst" style="white-space:normal">📍 ${esc(o.delivery_address)}</div>`:''}</div></div>
+      <div class="kbtns">${o.contact_phone?`<a class="kbtn sm out" href="tel:${esc(o.contact_phone.replace(/\s/g,''))}">📞 Call</a>`:''}${c.username?`<a class="kbtn sm out" href="https://t.me/${esc(c.username)}" target="_blank">💬 Telegram</a>`:''}</div>
+    </div>
+    ${o.customer_note?`<div class="knote">📝 ${esc(o.customer_note)}</div>`:''}
+
+    ${logs.length?`<div class="kcard" style="gap:6px">${logs.map(l=>`<div class="krow small"><span class="grow"><b>${esc(STAGES[stageOf(l.new_status)].label)}</b>${l.new_status==='payment_review'?' (slip sent)':''} · ${esc(who(l.changed_by))}</span><span class="kst" style="margin:0">${dt(l.created_at)}</span></div>`).join('')}</div>`:''}
+
+    <div class="kbtns">${nx?`<button class="kbtn ${nx[2]}" id="nx">${nx[1]}</button>`:''}${st!=='cancelled'&&st!=='delivered'?`<button class="kbtn red" id="cx">Cancel order</button>`:''}${st==='cancelled'?`<button class="kbtn out" id="reopen">Re-open order</button>`:''}</div>
+    <div class="kbtns"><button class="kbtn out" onclick="orderEdit(${o.id})">✏️ Edit order</button><button class="kbtn out" onclick="closeModal();go('orders')">Close</button></div>
+  </div>`);
+  const reload = () => orderDetail(o.id);
+  if ($('#nx')) $('#nx').onclick = async () => { if (await setStage(o.id, nx[0])){ toast(STAGES[nx[0]].label); reload(); } };
+  if ($('#cx')) $('#cx').onclick = async () => { if (await setStage(o.id, 'cancelled', true)){ toast('Order cancelled'); reload(); } };
+  if ($('#reopen')) $('#reopen').onclick = async () => { if (await setStage(o.id, 'new')){ toast('Order re-opened'); reload(); } };
+  if ($('#oSetPrice')) $('#oSetPrice').onclick = () => orderEdit(o.id);
+  if ($('#col')) $('#col').onclick = () => { $('#col').classList.add('hidden'); $('#colBox').classList.remove('hidden'); $('#pyAmt').focus(); };
+  const addPay = async (amt, kind) => {
+    amt = r2(amt); if (!(amt > 0)) return toast('Enter an amount');
+    const r = await sb.from('payments').insert({ order_id:o.id, payment_kind:kind, amount_usd:amt, status:'approved', reviewed_by: await myId(), reviewed_at:new Date().toISOString() });
+    if (fail(r.error)) return;
+    const paid = await recalcPaid(o.id);
+    if (st === 'new' || st === 'confirmed') await sb.from('orders').update({ status: prepStatus({ ...o, paid_usd: paid }) }).eq('id', o.id);   // money received = confirmed
+    toast('Payment added'); refreshPills(); reload();
+  };
+  if ($('#pyDep')) $('#pyDep').onclick = () => { const a = parseFloat($('#pyAmt').value)||0; addPay(a, a >= bal ? (Number(o.paid_usd) > 0 ? 'balance' : 'full') : 'deposit'); };
+  if ($('#pyFull')) $('#pyFull').onclick = () => addPay(bal, Number(o.paid_usd) > 0 ? 'balance' : 'full');
 }
 
 // ---- item editor (used by edit order + new order) ----
@@ -392,7 +632,7 @@ async function edSave(orderId, origItems){
   return true;
 }
 
-async function orderDetail(id){
+async function orderEdit(id){
   const { data:o, error } = await sb.from('orders')
     .select('*, customers(*), order_items(*), payments(*), order_status_log(*)').eq('id', id).single();
   if (fail(error)) return;
@@ -454,7 +694,7 @@ async function orderDetail(id){
     let r = await sb.from('payments').insert({ order_id:o.id, payment_kind:$('#rpKind').value, amount_usd:amt, status:'approved', reviewed_by:me, reviewed_at:new Date().toISOString() });
     if (fail(r.error)) return;
     await recalcPaid(o.id);
-    toast('Payment recorded'); orderDetail(o.id); refreshPills();
+    toast('Payment recorded'); orderEdit(o.id); refreshPills();
   };
   $('#oSave').onclick = async () => {
     const btn = $('#oSave'); btn.disabled = true;
@@ -469,7 +709,7 @@ async function orderDetail(id){
     }).eq('id', id);
     btn.disabled = false;
     if (fail(error)) return;
-    toast('Order saved'); closeModal(); go(page);
+    toast('Order saved'); orderDetail(id);
   };
   $('#oDel').onclick = async () => {
     if (!confirm(`Delete order ${o.order_no} completely?\nIts items, payments and history will be deleted too. This cannot be undone.`)) return;
@@ -572,7 +812,8 @@ async function deletePayment(pid, orderId){
   if (p?.slip_path) await sb.storage.from('payment-slips').remove([p.slip_path]);
   await recalcPaid(orderId);
   toast('Payment deleted'); refreshPills();
-  if (!$('#modal').classList.contains('hidden') && $('#oSave')) orderDetail(orderId); else { closeModal(); go(page); }
+  if (!$('#modal').classList.contains('hidden') && $('#oSave')) orderEdit(orderId);
+  else if (!$('#modal').classList.contains('hidden') && $('#oView')) orderDetail(orderId); else { closeModal(); go(page); }
 }
 async function paymentDetail(id){
   const { data:p, error } = await sb.from('payments').select('*, orders(*)').eq('id', id).single();
@@ -623,7 +864,8 @@ async function paymentDetail(id){
     let { error } = await sb.from('payments').update({ ...v, status:'approved', reject_reason:null, reviewed_by:me, reviewed_at:new Date().toISOString() }).eq('id', id);
     if (fail(error)) return;
     await recalcPaid(o.id);
-    const next = v.payment_kind === 'balance' ? 'ready' : o.order_type === 'stock' ? 'paid' : 'deposit_paid';
+    const paidNow = await recalcPaid(o.id);
+    const next = stageOf(o.status) === 'new' ? (paidNow >= Number(o.total_usd) ? 'paid' : 'deposit_paid') : o.status;
     ({ error } = await sb.from('orders').update({ status: next }).eq('id', o.id));
     if (fail(error)) return;
     toast('Payment approved'); closeModal(); refreshPills(); go(page);
@@ -771,6 +1013,8 @@ async function bulkUpload(){
         (missing categories are created automatically). The "Videos" folder is skipped.</div>
       <input type="file" id="bDir" webkitdirectory directory multiple>
     </div>
+    <label class="check" style="display:flex;gap:8px;align-items:flex-start;margin:6px 0 4px;color:var(--text)"><input type="checkbox" id="bRep" style="margin-top:3px">
+      <span><b>Replace photos</b> of products that already exist (same file name, e.g. <i>Skincare-001</i>). Use this for cleaned photos. Name, prices and other photos stay the same.</span></label>
     <div class="card" style="padding:12px;margin:10px 0">
       <b>B) On a phone — pick photos for one category</b>
       <label>Category</label><select id="bCat">${CATS.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join('')}</select>
@@ -797,16 +1041,28 @@ async function bulkUpload(){
       j.catId = byName[k];
     }
     // 2) skip photos already uploaded (same name)
-    const { data: ex } = await sb.from('products').select('name');
+    const { data: ex } = await sb.from('products').select('id,name,images');
     const have = new Set((ex||[]).map(p => p.name.toLowerCase()));
-    let done = 0, made = 0, skipped = 0, failed = 0;
+    const byPName = {}; (ex||[]).forEach(p => byPName[p.name.toLowerCase()] = p);
+    const replace = $('#bRep').checked;
+    let done = 0, made = 0, skipped = 0, failed = 0, replaced = 0;
     const show = () => { $('#bBar').style.width = Math.round(done/jobs.length*100)+'%';
-      $('#bTxt').textContent = `${done} / ${jobs.length} — added ${made}, already there ${skipped}${failed?', failed '+failed:''}`; };
+      $('#bTxt').textContent = `${done} / ${jobs.length} — added ${made}${replaced?', photo replaced '+replaced:''}, already there ${skipped}${failed?', failed '+failed:''}`; };
     const queue = [...jobs];
     async function worker(){
       while (queue.length){
         const j = queue.shift(); const name = j.file.name.replace(/\.[^.]+$/, '');
-        if (have.has(name.toLowerCase())) skipped++;
+        const old = byPName[name.toLowerCase()];
+        if (old && replace){
+          const url = await uploadImage(j.file);
+          if (!url) failed++;
+          else {
+            const imgs = [url, ...((old.images||[]).slice(1))];
+            const { error } = await sb.from('products').update({ images: imgs }).eq('id', old.id);
+            if (error){ console.error(error); failed++; } else replaced++;
+          }
+        }
+        else if (have.has(name.toLowerCase())) skipped++;
         else {
           const url = await uploadImage(j.file);
           if (!url) failed++;
@@ -819,7 +1075,7 @@ async function bulkUpload(){
       }
     }
     show(); await Promise.all([worker(), worker(), worker()]);
-    $('#bTxt').innerHTML += '<br><b>Finished ✅</b> Products are in the shop with "Ask price" — set name & prices when you are ready.' + (failed ? ' Run it again to retry the failed ones.' : '');
+    $('#bTxt').innerHTML += replace && replaced ? `<br><b>Finished ✅</b> ${replaced} photos replaced.` : '<br><b>Finished ✅</b> Products are in the shop with "Ask price" — set name & prices when you are ready.' + (failed ? ' Run it again to retry the failed ones.' : '');
     $('#bDir').disabled = $('#bFiles').disabled = false;
   }
   $('#bDir').onchange = e => {
@@ -832,7 +1088,7 @@ async function bulkUpload(){
       jobs.push({ file: f, catName: catFromFolder(folder) });
     }
     jobs.sort((a,b) => a.file.name.localeCompare(b.file.name));
-    if (!confirm(`Upload ${jobs.length} photos into ${new Set(jobs.map(j=>j.catName)).size} categories?`)) return;
+    if (!confirm($('#bRep').checked ? `Upload ${jobs.length} photos and replace the photo of products with the same name?` : `Upload ${jobs.length} photos into ${new Set(jobs.map(j=>j.catName)).size} categories?`)) return;
     run(jobs);
   };
   $('#bFiles').onchange = e => run([...e.target.files].filter(isImg).map(f => ({ file: f, catId: +$('#bCat').value })));
@@ -1037,7 +1293,7 @@ function catForm(id){
 // ====== REPORTS (profit & loss) ======
 const CONFIRMED = ['paid','deposit_paid','ordered_taobao','shipping','arrived','ready','delivered'];
 const dkey = d => { const x = new Date(d); return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,'0')}-${String(x.getDate()).padStart(2,'0')}`; };
-const dlabel = k => new Date(k + 'T00:00:00').toLocaleDateString('en-GB', { day:'2-digit', month:'short' });
+const dlabel = k => fmtD(k + 'T00:00:00');
 function periodRange(p, from, to){
   const n = new Date(), d0 = new Date(n.getFullYear(), n.getMonth(), n.getDate());
   const add = (d, days) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + days);
@@ -1102,7 +1358,7 @@ async function reports(){
     const pl = v => `<b style="color:${v<0?'var(--bad)':'var(--ok)'}">${v<0?'-':''}${money(Math.abs(v))}</b>`;
     const stat = (l, v, sub='') => `<div class="card stat"><div class="l">${l}</div><div class="n">${v}</div>${sub?`<div class="muted" style="font-size:12px;margin-top:2px">${sub}</div>`:''}</div>`;
     $('#rpBody').innerHTML = `
-      <div class="muted" style="margin:-6px 0 12px">${f.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})} – ${new Date(t-1).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div>
+      <div class="muted" style="margin:-6px 0 12px">${fmtD(f,{y:1})} – ${fmtD(t-1,{y:1})}</div>
       <div class="stats">
         ${stat('Sales (products)', money(R.sales), `${R.orders} order${R.orders===1?'':'s'}`)}
         ${stat('Cost of products', money(R.cost))}
@@ -1258,6 +1514,11 @@ async function settings(){
     <div class="top"><h2>Shop settings</h2></div>
     <div class="card" style="max-width:620px">
       <label>Shop name</label><input id="sName" value="${esc(s.shop_name)}">
+      <label>📝 Small text above every price in the shop (leave empty to hide)</label>
+      <input id="sPNote" value="${esc(s.price_note||'')}" placeholder="e.g. Wholesale price — see photo">
+      <label>💬 Your Telegram username for customers to chat (ask price, questions)</label>
+      <input id="sTg" value="${esc(s.contact_telegram||'')}" placeholder="e.g. kbeautics_shop  (without @)">
+      <div class="muted" style="font-size:12px;margin-top:4px">Customers tap "Chat with us" in the shop and it opens a Telegram chat with this account.</div>
       <div class="section"><h4>Bank transfer details (shown at checkout)</h4>
         <div class="row">
           <div><label>Bank</label><input id="sBank" value="${esc(s.bank_name||'')}" placeholder="e.g. ABA"></div>
@@ -1287,13 +1548,15 @@ async function settings(){
   const drawQr = () => $('#sQr').innerHTML = qr ? `<div class="im"><img src="${esc(qr)}"><button id="qrX">×</button></div>` : '<span class="muted">No QR uploaded</span>';
   const bindX = () => { const x = $('#qrX'); if (x) x.onclick = () => { qr = null; drawQr(); bindX(); }; };
   drawQr(); bindX();
-  const flashInfo = () => { const v = $('#sFlash').value; $('#sFlashInfo').textContent = !v ? 'No flash sale running.' : new Date(v) > new Date() ? 'Flash sale is ON until ' + new Date(v).toLocaleString('en-GB') : 'This time has passed — flash sale is OFF.'; };
+  const flashInfo = () => { const v = $('#sFlash').value; $('#sFlashInfo').textContent = !v ? 'No flash sale running.' : new Date(v) > new Date() ? 'Flash sale is ON until ' + fmtD(v,{t:1,y:1}) : 'This time has passed — flash sale is OFF.'; };
   $('#sFlash').oninput = flashInfo; flashInfo();
   $('#sFlashOff').onclick = () => { $('#sFlash').value = ''; flashInfo(); };
   $('#sQrFile').onchange = async e => { const f = e.target.files[0]; if (!f) return; toast('Uploading…'); const u = await uploadImage(f,'settings'); if (u){ qr=u; drawQr(); bindX(); } };
   $('#sSave').onclick = async () => {
     const { error } = await sb.from('shop_settings').update({
-      shop_name: $('#sName').value.trim() || 'K-BEAUTICS', bank_name: $('#sBank').value.trim()||null,
+      shop_name: $('#sName').value.trim() || 'K-BEAUTICS',
+      price_note: $('#sPNote').value.trim() || null,
+      contact_telegram: $('#sTg').value.trim().replace(/^@/,'').replace(/^https?:\/\/t\.me\//,'') || null, bank_name: $('#sBank').value.trim()||null,
       account_name: $('#sAccName').value.trim()||null, account_number: $('#sAccNo').value.trim()||null,
       qr_image_url: qr, delivery_fee_usd: parseFloat($('#sFee').value)||0,
       default_deposit_percent: Math.min(100, Math.max(0, parseInt($('#sDep').value)||0)),
