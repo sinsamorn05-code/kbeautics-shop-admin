@@ -1,3 +1,9 @@
+<!-- =============================================================
+     🔐 K-BEAUTICS ADMIN WEB + ADMIN PHONE APP  (for you & staff)
+     Upload this file to GitHub repo:  kbeautics-shop-admin
+     Link: https://sinsamorn05-code.github.io/kbeautics-shop-admin/
+     ❌ Do NOT upload to kbeautics-shop (that is the customer shop)
+     ============================================================= -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -885,21 +891,34 @@ async function bannerForm(id){
 }
 
 // ====== CATEGORIES ======
+let PRE_POS = 0;
 async function categories(){
   await loadCats();
+  const { data: st } = await sb.from('shop_settings').select('preorder_sort').eq('id',1).maybeSingle();
+  PRE_POS = Math.max(0, Math.min(CATS.length, Number(st?.preorder_sort)||0));
+  const list = CATS.map(c => ({ c })); list.splice(PRE_POS, 0, { pre:true });
+  const mv = (i) => `<td onclick="event.stopPropagation()" style="white-space:nowrap"><button class="btn sm" ${i?'':'disabled'} onclick="moveCat(${i},-1)" title="Move up">▲</button> <button class="btn sm" ${i<list.length-1?'':'disabled'} onclick="moveCat(${i},1)" title="Move down">▼</button></td>`;
   $('#main').innerHTML = `
     <div class="top"><h2>Categories</h2><button class="btn primary" onclick="catForm()">+ Add category</button></div>
-    <div class="card tablewrap">${!CATS.length?'<div class="empty">No categories yet</div>':
-      `<p class="muted" style="margin-top:0">This is the order customers see in the shop's category sidebar. Use ▲ ▼ to move a category.</p>
+    <div class="card tablewrap">
+      <p class="muted" style="margin-top:0">This is the order customers see in the shop's category sidebar (after "Featured"). Use ▲ ▼ to move.</p>
       <table><thead><tr><th style="width:96px">Move</th><th></th><th>Name</th><th>Shown</th></tr></thead><tbody>
-      ${CATS.map((c,i)=>`<tr class="click" onclick="catForm(${c.id})"><td onclick="event.stopPropagation()" style="white-space:nowrap"><button class="btn sm" ${i?'':'disabled'} onclick="moveCat(${i},-1)" title="Move up">▲</button> <button class="btn sm" ${i<CATS.length-1?'':'disabled'} onclick="moveCat(${i},1)" title="Move down">▼</button></td><td>${c.image_url?`<img class="thumb" style="border-radius:50%" src="${esc(c.image_url)}">`:'<div class="thumb" style="border-radius:50%"></div>'}</td><td><b>${esc(c.name)}</b></td><td>${c.is_active?'Yes':'<span class="muted">Hidden</span>'}</td></tr>`).join('')}</tbody></table>`}</div>`;
+      ${list.map((x,i)=> x.pre
+        ? `<tr style="background:rgba(194,85,122,.06)">${mv(i)}<td><div class="thumb" style="border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--brand);font-weight:700">🏷️</div></td><td><b>Pre-order / Custom Brand</b> <span class="muted" style="font-size:12px">(fixed menu item)</span></td><td>Yes</td></tr>`
+        : `<tr class="click" onclick="catForm(${x.c.id})">${mv(i)}<td>${x.c.image_url?`<img class="thumb" style="border-radius:50%" src="${esc(x.c.image_url)}">`:'<div class="thumb" style="border-radius:50%"></div>'}</td><td><b>${esc(x.c.name)}</b></td><td>${x.c.is_active?'Yes':'<span class="muted">Hidden</span>'}</td></tr>`).join('')}
+      </tbody></table></div>`;
 }
 async function moveCat(i, d){
-  const j = i + d; if (j < 0 || j >= CATS.length) return;
-  const list = [...CATS]; [list[i], list[j]] = [list[j], list[i]];
-  for (let k = 0; k < list.length; k++){
-    if (list[k].sort_order !== k + 1){ const { error } = await sb.from('categories').update({ sort_order: k + 1 }).eq('id', list[k].id); if (fail(error)) return; }
+  const list = CATS.map(c => ({ c })); list.splice(PRE_POS, 0, { pre:true });
+  const j = i + d; if (j < 0 || j >= list.length) return;
+  [list[i], list[j]] = [list[j], list[i]];
+  let k = 0, pre = 0;
+  for (let n = 0; n < list.length; n++){
+    if (list[n].pre){ pre = n; continue; }
+    k++;
+    if (list[n].c.sort_order !== k){ const { error } = await sb.from('categories').update({ sort_order: k }).eq('id', list[n].c.id); if (fail(error)) return; }
   }
+  if (pre !== PRE_POS){ const { error } = await sb.from('shop_settings').update({ preorder_sort: pre }).eq('id', 1); if (fail(error)) return; }
   go('categories');
 }
 function catForm(id){
